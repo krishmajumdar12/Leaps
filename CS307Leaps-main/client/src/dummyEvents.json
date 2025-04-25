@@ -1,0 +1,29 @@
+[
+    {
+        "id": "1",
+        "name": "Music Festival",
+        "location": "Chicago, IL",
+        "description": "A fun outdoor music festival.",
+        "date": "05/10/2025",
+        "time": "6:00 PM",
+        "price": "$50"
+    },
+    {
+        "id": "2",
+        "name": "Tech Conference",
+        "location": "San Francisco, CA",
+        "description": "A conference for tech enthusiasts.",
+        "date": "06/15/2025",
+        "time": "9:00 AM",
+        "price": "$200"
+    },
+    {
+        "id": "3",
+        "name": "Food Expo",
+        "location": "New York, NY",
+        "description": "A gourmet experience with top chefs.",
+        "date": "07/20/2025",
+        "time": "12:00 PM",
+        "price": "$75"
+    }
+]

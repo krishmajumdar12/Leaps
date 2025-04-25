@@ -1,0 +1,11 @@
+  .confirm-text{
+    text-align: center;
+  }
+  .confirm-text p{
+    color: black;
+    cursor: default;
+  }
+  .confirm-text p:hover{
+    color: black;
+    text-decoration: none;
+  }

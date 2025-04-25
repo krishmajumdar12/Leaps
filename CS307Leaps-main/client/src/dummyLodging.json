@@ -1,0 +1,29 @@
+[
+    {
+        "id": "1",
+        "name": "Lonely Lodge",
+        "location": "Island, OG",
+        "description": "Secluded Lodge on the outskirts of the island",
+        "checkIn": "2025-05-01",
+        "checkOut": "2025-05-07",
+        "price": "$96.00 from Marriott"
+    },
+    {
+        "id": "2",
+        "name": "Mountain Retreat",
+        "location": "Highland, CO",
+        "description": "Cozy retreat nestled in the mountains",
+        "checkIn": "2025-06-10",
+        "checkOut": "2025-06-15",
+        "price": "$120.00 from Hilton"
+    },
+    {
+        "id": "3",
+        "name": "Beachside Villa",
+        "location": "Coastal, CA",
+        "description": "Luxurious villa overlooking the beach",
+        "checkIn": "2025-07-20",
+        "checkOut": "2025-07-25",
+        "price": "$250.00 from Ritz-Carlton"
+    }
+]

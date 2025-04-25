@@ -1,0 +1,258 @@
+.account-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Edit Button - Smaller and Centered Under Name */
+.edit-btn {
+    background-color: #f3f3f3;
+    border: none;
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 14px;
+}
+
+.edit-btn:hover {
+    background-color: #e6e6e6;
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.profile-picture {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: #d3d3d3;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+}
+
+.username-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: black;
+}
+
+/* Account Info Section */
+.account-info {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    margin-top: 30px;
+}
+
+.account-fields {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+input {
+    width: 100%;
+    padding: 12px 16px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+}
+
+input:focus {
+    border-color: #7691ff;
+    box-shadow: 0 1px 6px rgba(118,145,255,0.3);
+}
+
+button {
+    padding: 10px 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: #7691ff;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #5a78ff;
+    transform: translateY(-1px);
+}
+
+.account-fields button {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.manage-friends-btn {
+    flex-direction: column;
+    align-items: center;
+    margin-top: none;
+}
+
+/* Delete Button */
+.delete-btn {
+    width: fit-content;
+    margin-top: 10px;
+    background-color: #ff4d4d;
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 15px;
+}
+
+.delete-btn:hover {
+    background-color: #d43f3f;
+}
+
+/* Delete Confirmation Container */
+.delete-confirm-text {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 16px;
+}
+
+/* Delete Confirmation Buttons */
+.delete-confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.delete-confirm-buttons button {
+    font-weight: 500;
+    padding: 10px 20px;
+    min-width: 100px;
+    cursor: pointer;
+}
+
+.delete-confirm-buttons .delete-btn {
+    background-color: #ff4d4d;
+    margin-top: 0; /* Reset the top margin since this is in a button group */
+}
+
+.delete-confirm-buttons .delete-btn:hover {
+    background-color: #d43f3f;
+}
+
+.delete-confirm-buttons .cancel-btn {
+    background-color: #e0e0e0;
+    margin-top: 0; /* Reset the top margin since this is in a button group */
+}
+
+.delete-confirm-buttons .cancel-btn:hover {
+    background-color: #e6e6e6;
+}
+
+
+.log-out-btn {
+    width: fit-content;
+    margin-top: none;
+    background-color: #9b9898; /* Gray color */
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 15px;
+}
+
+.log-out-btn:hover {
+    background-color: #7c7b7b;
+}
+
+.success-message {
+    color: #2e7d32;
+    margin-top: 16px;
+    padding: 10px 16px;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+}
+
+.error-message {
+    color: #c62828;
+    margin-top: 16px;
+    padding: 10px 16px;
+    background-color: #f1dcdc;
+    border-radius: 8px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.theme-toggle-container {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  /* Switch base */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+  }
+  
+  /* Hide default checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* Slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #3b82f6; /* your primary blue */
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(24px);
+  }
+  

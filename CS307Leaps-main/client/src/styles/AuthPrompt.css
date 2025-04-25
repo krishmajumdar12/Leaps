@@ -1,0 +1,83 @@
+/* client/src/styles/AuthPrompt.css */
+.auth-prompt-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .auth-prompt {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 400px;
+    max-width: 90vw;
+    text-align: center;
+  }
+  
+  .auth-prompt h2 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .auth-prompt p {
+    margin-bottom: 25px;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .auth-prompt-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .auth-prompt-buttons a,
+  .auth-prompt-buttons button {
+    padding: 12px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  
+  .login-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+  }
+  
+  .login-btn:hover {
+    background-color: #3367d6;
+  }
+  
+  .signup-btn {
+    background-color: #34a853;
+    color: white;
+    border: none;
+  }
+  
+  .signup-btn:hover {
+    background-color: #2e8b47;
+  }
+  
+  .guest-btn {
+    background-color: transparent;
+    color: #4285f4;
+    border: 1px solid #4285f4;
+  }
+  
+  .guest-btn:hover {
+    background-color: #f8f9fa;
+  }

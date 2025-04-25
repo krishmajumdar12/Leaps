@@ -1,0 +1,110 @@
+.travel-cost-comparison {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.travel-cost-comparison h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.chart-container {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.cost-table {
+  margin-top: 30px;
+}
+
+.cost-table h4 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.cost-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.cost-table th, 
+.cost-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.cost-table th {
+  background-color: #f4f4f4;
+  font-weight: 600;
+}
+
+.cost-table tr:last-child td {
+  border-bottom: none;
+}
+
+.cost-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.cost-table .best-option {
+  background-color: #e8f5e9;
+}
+
+.cost-table .best-option td:first-child {
+  font-weight: 600;
+}
+
+.recommendation {
+  margin-top: 25px;
+  padding: 15px;
+  background-color: #f0f7ff;
+  border-radius: 6px;
+  border-left: 4px solid #2196f3;
+}
+
+.recommendation p {
+  margin: 5px 0;
+}
+
+.recommendation-note {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.error-message {
+  padding: 15px;
+  background-color: #ffebee;
+  color: #c62828;
+  border-radius: 6px;
+  margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+  .cost-table th, 
+  .cost-table td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .recommendation {
+    padding: 12px;
+  }
+}

@@ -1,0 +1,140 @@
+.driving-cost-calculator {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .driving-cost-calculator h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .cost-estimation {
+    margin-top: 15px;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .fuel-prices {
+    margin: 15px 0;
+  }
+  
+  .fuel-prices p {
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .fuel-prices button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .fuel-prices button:hover {
+    background-color: #e9e9e9;
+  }
+  
+  .fuel-prices button.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+  }
+  
+  .cost-breakdown {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cost-breakdown h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .cost-breakdown table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .cost-breakdown td {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .cost-breakdown td:last-child {
+    text-align: right;
+    font-weight: 500;
+  }
+  
+  .cost-breakdown .total-fixed td {
+    padding-top: 12px;
+    color: #555;
+    font-weight: 500;
+  }
+  
+  .cost-breakdown .total-cost td {
+    padding-top: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #007bff;
+    border-bottom: none;
+  }
+  
+  .error {
+    color: #dc3545;
+    margin: 10px 0;
+    font-weight: 500;
+  }
+
+  .attribution {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    text-align: center;
+  }
+  
+  .attribution-text {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .attribution-text a {
+    color: #0056b3;
+    text-decoration: none;
+  }
+  
+  .attribution-text a:hover {
+    text-decoration: underline;
+  }

@@ -1,0 +1,339 @@
+/* Lodgings page specific styles with text visibility fixes */
+.lodgings-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.lodgings-page h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Filter styles */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.filters input,
+.filters select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  flex: 1;
+  min-width: 150px;
+  font-size: 14px;
+}
+
+/* Lodging list grid */
+.lodgings-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+/* Card styles with proper text visibility */
+.lodging-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.lodging-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Header with name and type */
+.lodging-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.lodging-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.lodging-type {
+  display: inline-block;
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+/* Lodging details section */
+.lodging-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.lodging-details p {
+  margin: 0;
+  color: #333;
+}
+
+.lodging-price {
+  font-size: 1.1rem;
+  color: #0066cc;
+}
+
+.lodging-description {
+  font-style: italic;
+  color: #555;
+  margin: 10px 0;
+}
+
+/* Amenities section */
+.lodging-amenities {
+  margin-top: 10px;
+}
+
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.amenity-tag {
+  background-color: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+/* Action buttons */
+.lodging-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.add-trip-btn, .compare-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: white;
+}
+
+.add-trip-btn {
+  background-color: #4caf50;
+}
+
+.add-trip-btn:hover {
+  background-color: #43a047;
+}
+
+.compare-btn {
+  background-color: #2196f3;
+}
+
+.compare-btn:hover {
+  background-color: #1e88e5;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 22px;
+}
+
+/* Trip selection */
+.trips-list {
+  margin: 15px 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.trip-item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.trip-item:last-child {
+  border-bottom: none;
+}
+
+.trip-name, .trip-destination {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.select-trip-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+/* Comparison styles */
+.selected-lodging {
+  background-color: #f5f5f5;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border-left: 4px solid #2196f3;
+}
+
+.selected-lodging h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.selected-name, .selected-price, .selected-rating {
+  margin: 5px 0;
+  color: #333;
+}
+
+.similar-options {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.similar-option {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.similar-option:last-child {
+  border-bottom: none;
+}
+
+.option-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.option-name, .option-price, .option-rating {
+  margin: 5px 0;
+  color: #333;
+}
+
+.better-deal {
+  background-color: #e8f5e9;
+  border-left: 4px solid #4caf50;
+}
+
+.savings {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.swap-btn {
+  background-color: #9c27b0;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close-modal-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+/* Messages */
+.error-message {
+  color: #f44336;
+  padding: 15px;
+  background-color: #ffebee;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.no-trips-message, .no-options-message {
+  color: #777;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .lodgings-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .filters {
+    flex-direction: column;
+  }
+  
+  .similar-option {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .similar-option button {
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+}

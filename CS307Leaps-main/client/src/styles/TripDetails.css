@@ -1,0 +1,532 @@
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container */
+.trip-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* GUARANTEED TWO-COLUMN LAYOUT */
+.two-column-layout {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 20px 0;
+  margin-bottom: 30px;
+}
+
+/* Left column - fixed at 40% width */
+.left-column {
+  display: table-cell;
+  width: 40%;
+  vertical-align: top;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Right column - fixed at 60% width */
+.right-column {
+  display: table-cell;
+  width: 60%;
+  vertical-align: top;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Bottom centered content */
+.bottom-content {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Calendar section */
+.calendar-section {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabs styling */
+.tabs {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.tabs button {
+  padding: 8px 12px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.tabs button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Members section */
+.members-section {
+  margin-top: 20px;
+}
+
+.members-section h3 {
+  margin-top: 0;
+}
+
+.members-list-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+}
+
+.members-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+.items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.trip-item-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.trip-item-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.trip-item-card img.preview-image {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.trip-item-card .event-preview {
+  flex-grow: 1;
+}
+
+.trip-item-card .vote-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+.trip-item-card button {
+  white-space: nowrap;
+}
+
+.item-type-section h4 {
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+.preview-placeholder {
+  background-color: #f1f1f1;
+  color: #777;
+  padding: 20px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.member-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-name {
+  font-weight: bold;
+}
+
+.current-user {
+  background-color: #f0f7ff;
+}
+
+.current-user-tag {
+  font-size: 0.8em;
+  color: #007bff;
+  margin-left: 5px;
+}
+
+/* RSVP status indicators */
+.rsvp-status {
+  font-size: 0.85em;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background-color: #eee;
+}
+
+.rsvp-attending {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.rsvp-not_attending {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.rsvp-maybe {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.rsvp-no-response {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+/* Cost summary card */
+.cost-summary-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cost-summary-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cost-summary-card li {
+  margin-bottom: 8px;
+}
+
+.cost-summary-card li.you {
+  font-weight: bold;
+}
+
+/* Trip details content */
+.trip-details-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.trip-info h1 {
+  margin-top: 0;
+  text-align: center;
+}
+
+/* Trip items */
+.trip-items {
+  margin-top: 20px;
+}
+
+/* Edit form */
+.edit-trip-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-trip-form input,
+.edit-trip-form textarea {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Add member form */
+.add-member-container {
+  margin: 15px 0;
+}
+
+.add-member-form {
+  display: flex;
+  gap: 10px;
+}
+
+.friend-select {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Buttons */
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0069d9;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.edit-trip-btn,
+.save-trip-btn, .save-price-btn {
+  background-color: #31ec5d;
+}
+
+.edit-trip-btn:hover, .save-trip-btn:hover, .save-price-btn:hover {
+  background-color: #139932;
+}
+
+.delete-trip-btn, .delete-item-btn {
+  background-color: #ef7070;
+  color: black;
+
+}
+
+.delete-trip-btn:hover, .delete-item-btn:hover {
+  background-color: #9d0e1d;
+  color: white;
+  
+}
+
+/* File section */
+.trip-files-list {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  background-color: white;
+}
+
+.file-row:last-child {
+  border-bottom: none;
+}
+
+.file-name-btn {
+  background: none;
+  color: #007bff;
+  border: none;
+  text-align: left;
+  font-weight: normal;
+  padding: 0;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.file-icon {
+  margin-right: 5px;
+}
+
+.file-date {
+  color: #6c757d;
+  font-size: 0.85em;
+  margin-right: auto;
+}
+
+.file-download-btn {
+  background-color: #6c757d;
+  margin-right: 5px;
+}
+
+.file-delete-btn {
+  background-color: #dc3545;
+}
+
+/* Trip cancellation */
+.cancelled-sidebar {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.trip-cancellation {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.cancel-vote-btn {
+  background-color: #dc3545;
+}
+
+.rescind-vote-btn {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.restore-trip-btn {
+  background-color: #28a745;
+}
+
+/* Action dropdown */
+.action-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.action-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.action-dropdown:hover .action-dropdown-content {
+  display: block;
+}
+
+.action-dropdown-content button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  color: black;
+  padding: 8px;
+  border-radius: 0;
+}
+
+.action-dropdown-content button:hover {
+  background-color: #f1f1f1;
+}
+
+.role-selector {
+  padding: 8px;
+}
+
+.role-selector select {
+  margin-top: 5px;
+  width: 100%;
+  padding: 5px;
+}
+
+/* File upload section */
+.file-upload-section {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Response messages */
+.success-message {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+/* Share section */
+.share-section {
+  margin: 20px 0;
+}
+
+/* Chat window */
+.chat-window {
+  margin-top: 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Additional spacing for mobile */
+@media (max-width: 768px) {
+  .two-column-layout {
+    display: block;
+  }
+  
+  .left-column,
+  .right-column {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

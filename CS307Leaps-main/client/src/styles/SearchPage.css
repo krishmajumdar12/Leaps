@@ -1,0 +1,27 @@
+.search-page {
+    padding: 60px 50px;
+  }
+  .search-page input, .search-page select {
+    margin-right: 10px;
+    padding: 5px;
+  }
+  .search-page h3 {
+    margin-top: 20px;
+  }
+  .search-page div > div {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  .search-page button {
+    margin-left: 10px;
+  }
+  .search-results div {
+  pointer-events: auto;
+  user-select: text;
+}
+
+.search-results button {
+  pointer-events: auto;
+  cursor: pointer;
+}

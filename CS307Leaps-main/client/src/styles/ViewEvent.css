@@ -1,0 +1,218 @@
+.view-event-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    margin: 70px auto 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+  }
+  
+  .event-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .back-button {
+    background-color: #f3f3f3;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #e6e6e6;
+    transform: translateY(-1px);
+  }
+  
+  .event-header h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .add-trip-button {
+    padding: 10px 16px;
+    background-color: #7691ff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .add-trip-button:hover {
+    background-color: #5a78ff;
+    transform: translateY(-1px);
+  }
+  
+  .event-image-container {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+  }
+  
+  .event-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+  }
+  
+  .event-info-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .event-info-container {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+  
+  .event-details {
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+  }
+  
+  .detail-item {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (min-width: 768px) {
+    .detail-item {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  
+  .detail-label {
+    font-weight: 600;
+    color: #555;
+    margin-right: 10px;
+  }
+  
+  .detail-value {
+    color: #333;
+  }
+  
+  .event-description {
+    grid-column: 1 / -1;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+  }
+  
+  .event-description h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .event-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .buy-button {
+    padding: 12px 24px;
+    background-color: #7691ff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(118,145,255,0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .buy-button:hover {
+    background-color: #5a78ff;
+    transform: translateY(-1px);
+  }
+
+
+  .event-description p {
+    margin: 5px 0;
+    color: #333;
+    cursor: default;
+  }
+
+  .event-description p:hover {
+    margin: 5px 0;
+    color: #333;
+    text-decoration: none;;
+  }
+
+
+  .loading-container,
+  .error-container,
+  .not-found-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    text-align: center;
+  }
+  
+  .loading-container p,
+  .error-container p,
+  .not-found-container p {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #555;
+  }
+  
+  /* Error and success message styles */
+  .success-message {
+    color: #2e7d32;
+    margin-top: 16px;
+    padding: 10px 16px;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .error-message {
+    color: #c62828;
+    margin-top: 16px;
+    padding: 10px 16px;
+    background-color: #f1dcdc;
+    border-radius: 8px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
