@@ -133,7 +133,7 @@ const Lodgings = () => {
         const fetchTrips = async () => {
             if (token) {
                 try {
-                    const response = await fetch('/api/trips', {
+                    const response = await fetch('https://leaps-ohwd.onrender.com/api/trips', {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -165,7 +165,7 @@ const Lodgings = () => {
     const confirmAddToTrip = async (tripId) => {
         try {
             // Add to trip API call
-            const response = await fetch('/api/trips/add-item', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -206,7 +206,7 @@ const Lodgings = () => {
         
         try {
             // First remove the old lodging
-            const removeResponse = await fetch(`/api/trips/items/${selectedTripId}/lodging/${selectedLodging.id}`, {
+            const removeResponse = await fetch(`https://leaps-ohwd.onrender.com/api/trips/items/${selectedTripId}/lodging/${selectedLodging.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -214,7 +214,7 @@ const Lodgings = () => {
             });
 
             // Then add the new lodging
-            const addResponse = await fetch('/api/trips/add-item', {
+            const addResponse = await fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

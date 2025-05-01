@@ -26,7 +26,7 @@ const ResetPassword = () => {
         setIsLoading(true);
         
         try {
-            const response = await fetch('/api/password-reset/reset-password', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/password-reset/reset-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, newPassword }),

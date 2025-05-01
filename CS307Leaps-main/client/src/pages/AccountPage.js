@@ -27,7 +27,7 @@ function AccountPage({ theme, setTheme }) {
         setSuccess(null);
         try {
             
-            const response = await fetch(`/api/users/profile`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/users/profile`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
@@ -102,7 +102,7 @@ function AccountPage({ theme, setTheme }) {
             if (userInfo.password) updatedFields.password = userInfo.password;
             if (userInfo.pic) updatedFields.pic = userInfo.pic;
             
-            const response = await fetch(`/api/users/update`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/users/update`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ function AccountPage({ theme, setTheme }) {
         setSuccess(null);
         
         try {
-            const response = await fetch('/api/users/delete', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/users/delete', {
                 method: 'DELETE',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -182,7 +182,7 @@ function AccountPage({ theme, setTheme }) {
     const toggleTheme = async () => {
         const newTheme = theme === 'light' ? 'dark' : 'light';
         setTheme(newTheme);
-        await fetch('/api/users/update', {
+        await fetch('https://leaps-ohwd.onrender.com/api/users/update', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

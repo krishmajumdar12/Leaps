@@ -16,7 +16,7 @@ const Share = () => {
             console.log("before fetch");
             console.log("token: ", token);
             console.log("id", id);
-            const response = await fetch(`/api/trips/${id}/share`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/share`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

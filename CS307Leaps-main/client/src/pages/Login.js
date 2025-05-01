@@ -24,7 +24,7 @@ const Login = ({ setAuth, setTheme }) => {
         setSuccess(null);
 
         try {
-            const response = await fetch("/api/auth/login", {
+            const response = await fetch("https://leaps-ohwd.onrender.com/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),
@@ -60,7 +60,7 @@ const Login = ({ setAuth, setTheme }) => {
         setResetMessage("");
         
         try {
-            const response = await fetch('/api/password-reset/request-reset', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/password-reset/request-reset', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: resetEmail }),
