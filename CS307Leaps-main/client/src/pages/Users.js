@@ -29,7 +29,7 @@ const Users = () => {
         }
         const fetchProfile = async () => {
             try {
-              const res = await fetch('/api/users/profile', {
+              const res = await fetch('https://leaps-ohwd.onrender.com/api/users/profile', {
                 headers: { Authorization: `Bearer ${token}` }
               });
               if (!res.ok) throw new Error('Failed to fetch profile');
@@ -42,7 +42,7 @@ const Users = () => {
           
         const fetchFriends = async () => {
           try {
-            const response = await fetch('/api/friends/list', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/friends/list', {
               headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!response.ok) throw new Error('Failed to fetch friends');
@@ -55,7 +55,7 @@ const Users = () => {
 
         const fetchRequests = async () => {
           try {
-            const res = await fetch('/api/friends/requests', {
+            const res = await fetch('https://leaps-ohwd.onrender.com/api/friends/requests', {
               headers: { Authorization: `Bearer ${token}` }
             });
             const data = await res.json();
@@ -68,7 +68,7 @@ const Users = () => {
         
         const fetchOutgoingRequests = async () => {
           try {
-            const res = await fetch('/api/friends/outgoing', {
+            const res = await fetch('https://leaps-ohwd.onrender.com/api/friends/outgoing', {
               headers: { Authorization: `Bearer ${token}` }
             });
             const data = await res.json();
@@ -81,7 +81,7 @@ const Users = () => {
         
         const fetchSuggestions = async () => {
           try {
-            const res = await fetch('/api/friends/suggestions', {
+            const res = await fetch('https://leaps-ohwd.onrender.com/api/friends/suggestions', {
               headers: { Authorization: `Bearer ${token}` }
             });
             const data = await res.json();
@@ -113,7 +113,7 @@ const Users = () => {
 
         setIsLoading(true);
         try {
-            const response = await fetch(`/api/users/search?query=${encodeURIComponent(searchQuery)}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/users/search?query=${encodeURIComponent(searchQuery)}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!response.ok) throw new Error('Failed to search users');
@@ -133,7 +133,7 @@ const Users = () => {
     /*const handleAddFriend = async (friendId) => {
         setIsLoading(true);
         try {
-            const response = await fetch('/api/friends/add', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/friends/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ const Users = () => {
     const handleRemoveFriend = async (friendId) => {
         setIsLoading(true);
         try {
-          const response = await fetch('/api/friends/remove', {
+          const response = await fetch('https://leaps-ohwd.onrender.com/api/friends/remove', {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ const Users = () => {
     const handleSendRequest = async (receiverId) => {
       setIsLoading(true);
       try {
-        const res = await fetch('/api/friends/request', {
+        const res = await fetch('https://leaps-ohwd.onrender.com/api/friends/request', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ const Users = () => {
     
     const respondToRequest = async (requestId, action) => {
       try {
-        const res = await fetch('/api/friends/respond', {
+        const res = await fetch('https://leaps-ohwd.onrender.com/api/friends/respond', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -232,7 +232,7 @@ const Users = () => {
           setPendingRequests(prev => prev.filter(r => r.id !== requestId));
           if (action === 'accept') {
             const fetchFriends = async () => {
-              const response = await fetch('/api/friends/list', {
+              const response = await fetch('https://leaps-ohwd.onrender.com/api/friends/list', {
                 headers: { Authorization: `Bearer ${token}` }
               });
               const data = await response.json();
@@ -249,7 +249,7 @@ const Users = () => {
     const handleCancelRequest = async (receiverId) => {
       setIsLoading(true);
       try {
-        const res = await fetch('/api/friends/request', {
+        const res = await fetch('https://leaps-ohwd.onrender.com/api/friends/request', {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

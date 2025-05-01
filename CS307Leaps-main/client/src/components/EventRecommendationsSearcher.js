@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 const EventRecommendationsSearcher = ({ onResults, location }) => {
 
   const handleSearch = async () => {
-    const url = `/api/search?q=&location=${location}`;
+    const url = `https://leaps-ohwd.onrender.com/api/search?q=&location=${location}`;
     console.log(url);
     try {
       const res = await fetch(url);

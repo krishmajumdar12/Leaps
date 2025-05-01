@@ -19,7 +19,7 @@ const EventRecommendations = ({ results, onAddToTrip, currentTrip }) => {
     console.log(`Recording view for ${type} ID: ${item.id}`);
     try {
       // Similar pattern as in TripDetails page
-      const url = `/api/items/${type}/${item.id}/view`;
+      const url = `https://leaps-ohwd.onrender.com/api/items/${type}/${item.id}/view`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {

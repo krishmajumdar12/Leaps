@@ -30,7 +30,7 @@ function ChatWindow({ tripId, userId }) {
       const fetchMessages = async () => {
         try {
           const token = localStorage.getItem('token');
-          const res = await fetch(`http://localhost:3000/api/messages/trip/${tripId}`, {
+          const res = await fetch(`https://leaps-ohwd.onrender.com/api/messages/trip/${tripId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             }
@@ -176,7 +176,7 @@ function ChatWindow({ tripId, userId }) {
       const formData = new FormData();
       formData.append('file', file);
   
-      const res = await fetch('http://localhost:3000/api/messages/upload', {
+      const res = await fetch('https://leaps-ohwd.onrender.com/api/messages/upload', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

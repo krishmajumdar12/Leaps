@@ -25,7 +25,7 @@ export default function ConfirmDelete({ id, token }) {
     const [error, setError] = useState(null);
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/trips/${id}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -14,7 +14,7 @@ const TripRSVP = ({ tripId, currentUserId, isCreator, onRsvpUpdate }) => {
 
   const fetchUserRsvpStatus = async () => {
     try {
-      const response = await fetch(`/api/trip-rsvp/${tripId}/rsvp-status`, {
+      const response = await fetch(`https://leaps-ohwd.onrender.com/api/trip-rsvp/${tripId}/rsvp-status`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -44,7 +44,7 @@ const TripRSVP = ({ tripId, currentUserId, isCreator, onRsvpUpdate }) => {
     setSuccess(null);
     
     try {
-      const response = await fetch(`/api/trip-rsvp/${tripId}/rsvp`, {
+      const response = await fetch(`https://leaps-ohwd.onrender.com/api/trip-rsvp/${tripId}/rsvp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -52,7 +52,7 @@ const TripDetails = () => {
 
     const fetchCostSummary = async () => {
         try {
-            const res = await fetch(`/api/trips/${id}/cost-summary`, {
+            const res = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/cost-summary`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (!res.ok) throw new Error('cost summary failed');
@@ -76,7 +76,7 @@ const TripDetails = () => {
         formData.append('file', selectedFile);
 
         try {
-            const res = await fetch(`/api/trips/${id}/upload-file`, {
+            const res = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/upload-file`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ const TripDetails = () => {
 
     const fetchTripFiles = async () => {
         try {
-            const res = await fetch(`/api/trips/${id}/files`, {
+            const res = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/files`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -114,7 +114,7 @@ const TripDetails = () => {
     const fetchTrip = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch(`/api/trips/${id}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -125,7 +125,7 @@ const TripDetails = () => {
             const data = await response.json();
 
             // Fetch vote counts for trip items
-            const votesResponse = await fetch(`/api/trips/items/${id}/votes`, {
+            const votesResponse = await fetch(`https://leaps-ohwd.onrender.com/api/trips/items/${id}/votes`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -169,7 +169,7 @@ const TripDetails = () => {
 
     const fetchTripItemsWithDates = async () => {
         try {
-            const response = await fetch(`/api/trips/${id}/items-with-dates`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/items-with-dates`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -209,7 +209,7 @@ const TripDetails = () => {
         if (!token || !id) return;
 
         try {
-            const response = await fetch(`/api/trip-rsvp/${id}/rsvp-status`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trip-rsvp/${id}/rsvp-status`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -232,7 +232,7 @@ const TripDetails = () => {
 
         const fetchFriends = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/friends/list`, {
+                const response = await fetch(`https://leaps-ohwd.onrender.com/api/friends/list`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -274,7 +274,7 @@ const TripDetails = () => {
             if (tripMembers.length === 0) return; // Ensure tripMembers is loaded before fetching votes
 
             try {
-                const response = await fetch(`/api/trips/${id}/cancellation-status`, {
+                const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/cancellation-status`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -286,7 +286,7 @@ const TripDetails = () => {
                 setCancelVotes(data.cancel_votes || 0);
 
                 // Check if the user has already voted to cancel
-                const userVoteResponse = await fetch(`/api/trips/${id}/user-vote`, {
+                const userVoteResponse = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/user-vote`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -310,7 +310,7 @@ const TripDetails = () => {
 
     const sendRsvpReminder = async (memberId) => {
         try {
-            const response = await fetch(`/api/trip-rsvp/${id}/send-reminder/${memberId}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trip-rsvp/${id}/send-reminder/${memberId}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -341,7 +341,7 @@ const TripDetails = () => {
 
     const fetchTripMembers = async () => {
         try {
-            const response = await fetch(`/api/trips/${id}/members`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/members`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -372,7 +372,7 @@ const TripDetails = () => {
             return;
         }
         try {
-            const response = await fetch(`http://localhost:3000/api/trips/${id}/remove-member/${memberId}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/remove-member/${memberId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -404,7 +404,7 @@ const TripDetails = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:3000/api/trips/${id}/add-friend`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/add-friend`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -467,7 +467,7 @@ const TripDetails = () => {
     const handleSaveTrip = async () => {
         try {
             console.log(JSON.stringify(trip));
-            const response = await fetch(`/api/trips/${id}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -498,7 +498,7 @@ const TripDetails = () => {
         const confirmed = window.confirm('Are you sure you want to delete this trip?');
         if (confirmed) {
             try {
-                const response = await fetch(`/api/trips/${id}`, {
+                const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -521,7 +521,7 @@ const TripDetails = () => {
             try {
                 console.log(`Attempting to delete: tripId=${tripId}, itemType=${itemType}, itemId=${itemId}`);
 
-                const url = `/api/trips/items/${tripId}/${itemType}/${itemId}`;
+                const url = `https://leaps-ohwd.onrender.com/api/trips/items/${tripId}/${itemType}/${itemId}`;
                 console.log('Delete request URL:', url);
 
                 const response = await fetch(url, {
@@ -554,7 +554,7 @@ const TripDetails = () => {
 
     const handleVote = async (itemId, voteType) => {
         try {
-            const response = await fetch(`/api/trips/items/${id}/vote`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/items/${id}/vote`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -604,7 +604,7 @@ const TripDetails = () => {
     const savePriceChange = async (eventId, price, eventName, tripName) => {
         try {
             const response = await fetch(
-                `/api/trips/${trip.id}/items/${eventId}/price?eventName=${eventName}&tripName=${tripName}`,
+                `https://leaps-ohwd.onrender.com/api/trips/${trip.id}/items/${eventId}/price?eventName=${eventName}&tripName=${tripName}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -637,11 +637,11 @@ const TripDetails = () => {
                 try {
                     let endpoint;
                     if (type === 'events' || type === 'custom-event') {
-                        endpoint = `/api/events/${id}?tripId=${trip.id}`;
+                        endpoint = `https://leaps-ohwd.onrender.com/api/events/${id}?tripId=${trip.id}`;
                     } else if (type === 'lodging') {
-                        endpoint = `/api/lodging/${id}`;
+                        endpoint = `https://leaps-ohwd.onrender.com/api/lodging/${id}`;
                     } else if (type === 'travel') {
-                        endpoint = `/api/travel/${id}`;
+                        endpoint = `https://leaps-ohwd.onrender.com/api/travel/${id}`;
                     }
 
                     if (endpoint) {
@@ -848,7 +848,7 @@ const TripDetails = () => {
 
     const voteToCancel = async () => {
         try {
-            const response = await fetch(`/api/trips/${id}/vote-cancel`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/vote-cancel`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -873,7 +873,7 @@ const TripDetails = () => {
 
     const handleCancelTrip = async () => {
         try {
-            const response = await fetch(`/api/trips/cancel/${trip.id}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/cancel/${trip.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -903,7 +903,7 @@ const TripDetails = () => {
 
     const rescindVote = async () => {
         try {
-            const response = await fetch(`/api/trips/${id}/rescind-vote`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/rescind-vote`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -922,7 +922,7 @@ const TripDetails = () => {
 
     const restoreTrip = async () => {
         try {
-            const response = await fetch(`/api/trips/${id}/restore`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/restore`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -957,7 +957,7 @@ const TripDetails = () => {
                     userId, ratio
                 }))
             };
-            await fetch(`/api/trips/${id}/cost-ratios`, {
+            await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/cost-ratios`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -982,7 +982,7 @@ const TripDetails = () => {
 
     const handleUpdateRole = async (memberId, newRole) => {
         try {
-            const response = await fetch(`/api/trips/${id}/members/${memberId}/role`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/members/${memberId}/role`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1003,7 +1003,7 @@ const TripDetails = () => {
 
     const downloadFile = async (fileId, filename) => {
         try {
-            const res = await fetch(`/api/trips/${id}/files/${fileId}/download`, {
+            const res = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/files/${fileId}/download`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -1037,7 +1037,7 @@ const TripDetails = () => {
 
     const handleDeleteFile = async (fileId) => {
         try {
-            const res = await fetch(`/api/trips/${id}/files/${fileId}`, {
+            const res = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/files/${fileId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -1056,7 +1056,7 @@ const TripDetails = () => {
 
     const openFileInNewTab = async (fileId) => {
         try {
-            const res = await fetch(`/api/trips/${id}/files/${fileId}/view`, {
+            const res = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/files/${fileId}/view`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -1088,7 +1088,7 @@ const TripDetails = () => {
         if (!confirmPromotion) return;
 
         try {
-            const response = await fetch(`/api/trips/${id}/promote-to-creator`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/promote-to-creator`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

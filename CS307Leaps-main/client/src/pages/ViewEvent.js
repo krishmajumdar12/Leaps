@@ -16,7 +16,7 @@ const ViewEvent = () => {
     const fetchEvent = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/events/${id}`, {
+        const response = await fetch(`https://leaps-ohwd.onrender.com/api/events/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
         if (!response.ok) throw new Error('Failed to fetch event');

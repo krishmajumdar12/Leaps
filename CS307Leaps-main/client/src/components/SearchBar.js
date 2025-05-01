@@ -63,7 +63,7 @@ const SearchBar = ({ onResults }) => {
       }
     
       // 3) Build your URL including coords only if you have them
-      let url = `/api/search?q=${encodeURIComponent(query)}` +
+      let url = `https://leaps-ohwd.onrender.com/api/search?q=${encodeURIComponent(query)}` +
                 `&location=${encodeURIComponent(filters.location)}` +
                 (filters.eventType ? `&eventType=${encodeURIComponent(filters.eventType)}` : '') +
                 (formattedStartDateTime ? `&startDateTime=${encodeURIComponent(formattedStartDateTime)}` : '') +

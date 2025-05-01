@@ -23,7 +23,7 @@ const AddRecommendationDialog = ({ open, onClose, item }) => {
     setLoading(true);
     setError(null);
     setSuccess(null);
-    fetch('/api/trips', {
+    fetch('https://leaps-ohwd.onrender.com/api/trips', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const AddRecommendationDialog = ({ open, onClose, item }) => {
   const addToTrip = (tripId) => {
     setLoading(true);
     console.log("Would send to server:", { tripId, itemType: item.type, itemId: item.id });
-    fetch('/api/trips/add-item', {
+    fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const AddRecommendationDialog = ({ open, onClose, item }) => {
 
   const createTrip = () => {
     setLoading(true);
-    fetch('/api/trips', {
+    fetch('https://leaps-ohwd.onrender.com/api/trips', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -16,7 +16,7 @@ const ViewDriving = () => {
     const fetchDrivingDetails = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/api/travel/${id}`, {
+        const response = await fetch(`https://leaps-ohwd.onrender.com/api/travel/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

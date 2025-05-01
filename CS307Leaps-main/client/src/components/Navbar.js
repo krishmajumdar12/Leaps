@@ -18,7 +18,7 @@ const Navbar = () => {
         // Get Unread Notifcation Count
         const fetchUnreadCount = async () => {
             try {
-                const res = await fetch('/api/notifications/count', {
+                const res = await fetch('https://leaps-ohwd.onrender.com/api/notifications/count', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -46,7 +46,7 @@ const Navbar = () => {
 
         // Save current theme to backend
         try {
-          await fetch('/api/users/update', {
+          await fetch('https://leaps-ohwd.onrender.com/api/users/update', {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

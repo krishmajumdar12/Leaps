@@ -30,7 +30,7 @@ const Trips = () => {
 
     const handleComplete = async (trip) => {
         try {
-            const response = await fetch(`/api/trips/complete/${trip.id}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/complete/${trip.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const Trips = () => {
 
     const handleRestore = async (trip) => {
         try {
-            const response = await fetch(`/api/trips/${trip.id}/restore`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${trip.id}/restore`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const Trips = () => {
 
     const handleMarkAsCurrent = async (trip) => {
         try {
-            const response = await fetch(`/api/trips/mark-as-current/${trip.id}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/mark-as-current/${trip.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ const Trips = () => {
         const fetchTrips = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch("/api/trips", {
+                const response = await fetch("https://leaps-ohwd.onrender.com/api/trips", {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
