@@ -17,7 +17,7 @@ const NotificationPage = () => {
 
     const fetchNotifications = async () => {
       try {
-        const response = await fetch('/api/notifications/list', {
+        const response = await fetch('https://leaps-ohwd.onrender.com/api/notifications/list', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -42,7 +42,7 @@ const NotificationPage = () => {
 
   const markAsRead = async (notificationId) => {
     try {
-      const response = await fetch(`/api/notifications/${notificationId}/read`, {
+      const response = await fetch(`https://leaps-ohwd.onrender.com/api/notifications/${notificationId}/read`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -63,7 +63,7 @@ const NotificationPage = () => {
 
   const markAllAsRead = async () => {
     try {
-      const response = await fetch('/api/notifications/read-all', {
+      const response = await fetch('https://leaps-ohwd.onrender.com/api/notifications/read-all', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -96,7 +96,7 @@ const NotificationPage = () => {
 
   const deleteNotification = async (notificationId) => {
     try {
-      const response = await fetch(`/api/notifications/${notificationId}`, {
+      const response = await fetch(`https://leaps-ohwd.onrender.com/api/notifications/${notificationId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

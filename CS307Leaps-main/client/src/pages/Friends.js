@@ -24,7 +24,7 @@ const Friends = () => {
     const fetchFriends = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('/api/friends/list', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/friends/list', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!response.ok) throw new Error('Failed to fetch friends');
@@ -52,7 +52,7 @@ const Friends = () => {
 
         setIsLoading(true);
         try {
-            const response = await fetch(`/api/friends/search?query=${encodeURIComponent(searchQuery)}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/friends/search?query=${encodeURIComponent(searchQuery)}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!response.ok) throw new Error('Failed to search users');
@@ -72,7 +72,7 @@ const Friends = () => {
     const handleRemoveFriend = async (friendIdToRemove) => {
         setIsLoading(true);
         try {
-            const response = await fetch('/api/friends/remove', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/friends/remove', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

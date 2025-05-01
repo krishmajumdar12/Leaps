@@ -17,7 +17,7 @@ const NotificationPreferencesPage = () => {
   useEffect(() => {
     const fetchPreferences = async () => {
       try {
-        const response = await fetch('/api/notifications/preferences', {
+        const response = await fetch('https://leaps-ohwd.onrender.com/api/notifications/preferences', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -42,7 +42,7 @@ const NotificationPreferencesPage = () => {
 
   const updatePreferences = async () => {
     try {
-      const response = await fetch('/api/notifications/preferences', {
+      const response = await fetch('https://leaps-ohwd.onrender.com/api/notifications/preferences', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

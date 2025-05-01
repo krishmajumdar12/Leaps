@@ -19,7 +19,7 @@ function CustomEvents() {
         const fetchEvents = async () => {
             setLoading(true);
             try {
-                const response = await fetch("/api/events", {
+                const response = await fetch("https://leaps-ohwd.onrender.com/api/events", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -60,7 +60,7 @@ function CustomEvents() {
         if (!selectedEvent) return;
 
         try {
-            const response = await fetch(`/api/events/${selectedEvent.id}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/events/${selectedEvent.id}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` },
             });

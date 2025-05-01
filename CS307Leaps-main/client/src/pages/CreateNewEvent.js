@@ -35,7 +35,7 @@ const CreateNewEvent = () => {
         };
 
         try {
-            const response = await fetch("/api/events", {
+            const response = await fetch("https://leaps-ohwd.onrender.com/api/events", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

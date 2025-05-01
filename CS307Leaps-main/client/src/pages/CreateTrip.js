@@ -24,7 +24,7 @@ const CreateTrip = () => {
         setSuccess(null);
 
         try {
-            const response = await fetch("/api/trips", {
+            const response = await fetch("https://leaps-ohwd.onrender.com/api/trips", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",

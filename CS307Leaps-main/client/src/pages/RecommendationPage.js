@@ -30,7 +30,7 @@ const RecommendationPage = () => {
     const fetchTrip = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`/api/trips/${id}`, {
+            const response = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -43,7 +43,7 @@ const RecommendationPage = () => {
             console.log("data: ", data);
 
             // Fetch vote counts for trip items
-            const votesResponse = await fetch(`/api/trips/items/${id}/votes`, {
+            const votesResponse = await fetch(`https://leaps-ohwd.onrender.com/api/trips/items/${id}/votes`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -88,7 +88,7 @@ const RecommendationPage = () => {
     const addToTrip = (addedItem) => {
         setLoading(true);
         console.log("Would send to server:", { tripId: trip.id, itemType: addedItem.type, itemId: addedItem.id });
-        fetch('/api/trips/add-item', {
+        fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',

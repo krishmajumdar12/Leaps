@@ -159,7 +159,7 @@ const Travel = () => {
           
                 // Fetch driving routes from backend if logged in
                 if (token) {
-                  const res = await fetch('/api/travel', {
+                  const res = await fetch('https://leaps-ohwd.onrender.com/api/travel', {
                     headers: {
                       'Authorization': `Bearer ${token}`
                     }
@@ -188,7 +188,7 @@ const Travel = () => {
         const fetchTrips = async () => {
             if (token) {
                 try {
-                    const response = await fetch('/api/trips', {
+                    const response = await fetch('https://leaps-ohwd.onrender.com/api/trips', {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -303,7 +303,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                 notes: `${newDriving.notes} (Est. distance: ${costEstimate.distance} mi)`
               };
           
-              const response = await fetch('/api/travel', {
+              const response = await fetch('https://leaps-ohwd.onrender.com/api/travel', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -349,7 +349,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
     const confirmAddToTrip = async (tripId) => {
         try {
             // Add to trip API call
-            const response = await fetch('/api/trips/add-item', {
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -390,7 +390,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
         
         try {
             // First remove the old travel option
-            const removeResponse = await fetch(`/api/trips/items/${selectedTripId}/travel/${selectedTravel.id}`, {
+            const removeResponse = await fetch(`https://leaps-ohwd.onrender.com/api/trips/items/${selectedTripId}/travel/${selectedTravel.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -398,7 +398,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
             });
 
             // Then add the new travel option
-            const addResponse = await fetch('/api/trips/add-item', {
+            const addResponse = await fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
