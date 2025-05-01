@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import './ChatWindow.css';
 
-const ENDPOINT = 'http://localhost:3000';
+const ENDPOINT = 'https://leaps-ohwd.onrender.com';
 
 function ChatWindow({ tripId, userId }) {
   const [socket, setSocket] = useState(null);
