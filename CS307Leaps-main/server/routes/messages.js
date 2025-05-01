@@ -61,7 +61,7 @@ router.post('/upload', auth, upload.single('file'), async (req, res) => {
       return res.status(400).json({ message: 'No file uploaded' });
     }
     // e.g. "http://localhost:3000/uploads/filename.png"
-    const fileUrl = `${process.env.SERVER_URL || 'http://localhost:3000'}/uploads/${req.file.filename}`;
+    const fileUrl = `${process.env.SERVER_URL || 'https://leaps-ohwd.onrender.com'}/uploads/${req.file.filename}`;
 
     return res.json({ url: fileUrl });
   } catch (error) {
