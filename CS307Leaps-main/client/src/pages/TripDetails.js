@@ -644,7 +644,7 @@ const TripDetails = () => {
                     if (type === 'events' || type === 'custom-event') {
                         endpoint = `https://leaps-ohwd.onrender.com/api/events/${id}?tripId=${trip.id}`;
                     } else if (type === 'lodging') {
-                        endpoint = `https://leaps-ohwd.onrender.com/api/lodging/${id}`;
+                        endpoint = `https://leaps-ohwd.onrender.com/api/lodgings/${id}`;
                     } else if (type === 'travel') {
                         endpoint = `https://leaps-ohwd.onrender.com/api/travel/${id}`;
                     }
