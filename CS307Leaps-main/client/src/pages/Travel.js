@@ -3,115 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Travel.css";
 import { findSimilarItems, isBetterDeal, calculateSavings } from "../utils/comparisonUtils";
 import { isAuthenticated, isGuest } from "../services/authService"; 
-import AuthPrompt from "../components/AuthPrompt"
-// Dummy travel data
-const dummyTravelItems = [
-    {
-        id: "2001",
-        type: "Flight",
-        price: 350.00,
-        departure: "2025-05-01T08:00:00",
-        departure_location: "New York, NY",
-        arrival: "2025-05-01T11:30:00",
-        arrival_location: "Chicago, IL",
-        airline: "Delta Airlines",
-        flight_number: "DL1234",
-        duration: "3h 30m",
-        stops: 0
-    },
-    {
-        id: "2002",
-        type: "Flight",
-        price: 420.00,
-        departure: "2025-05-01T10:00:00",
-        departure_location: "New York, NY",
-        arrival: "2025-05-01T13:30:00",
-        arrival_location: "Chicago, IL",
-        airline: "American Airlines",
-        flight_number: "AA5678",
-        duration: "3h 30m",
-        stops: 0
-    },
-    {
-        id: "2003",
-        type: "Flight",
-        price: 290.00,
-        departure: "2025-05-01T06:00:00",
-        departure_location: "New York, NY",
-        arrival: "2025-05-01T09:30:00",
-        arrival_location: "Chicago, IL",
-        airline: "United Airlines",
-        flight_number: "UA9012",
-        duration: "3h 30m",
-        stops: 0
-    },
-    {
-        id: "2004",
-        type: "Flight",
-        price: 380.00,
-        departure: "2025-05-01T16:00:00",
-        departure_location: "New York, NY",
-        arrival: "2025-05-01T19:30:00",
-        arrival_location: "Chicago, IL",
-        airline: "Southwest Airlines",
-        flight_number: "WN3456",
-        duration: "3h 30m",
-        stops: 0
-    },
-    {
-        id: "2005",
-        type: "Train",
-        price: 120.00,
-        departure: "2025-05-01T09:00:00",
-        departure_location: "Boston, MA",
-        arrival: "2025-05-01T13:00:00",
-        arrival_location: "New York, NY",
-        train_company: "Amtrak",
-        train_number: "AM7890",
-        duration: "4h 00m",
-        stops: 2
-    },
-    {
-        id: "2006",
-        type: "Bus",
-        price: 60.00,
-        departure: "2025-05-01T08:00:00",
-        departure_location: "Washington DC",
-        arrival: "2025-05-01T12:00:00",
-        arrival_location: "New York, NY",
-        bus_company: "Greyhound",
-        bus_number: "GH1234",
-        duration: "4h 00m",
-        stops: 3
-    },
-    {
-        id: "2007",
-        type: "Flight",
-        price: 650.00,
-        departure: "2025-06-15T10:00:00",
-        departure_location: "Los Angeles, CA",
-        arrival: "2025-06-15T18:00:00",
-        arrival_location: "New York, NY",
-        airline: "JetBlue",
-        flight_number: "B6789",
-        duration: "5h 00m",
-        stops: 1
-    },
-    {
-        id: "2008",
-        type: "Train",
-        price: 90.00,
-        departure: "2025-05-01T07:00:00",
-        departure_location: "Boston, MA",
-        arrival: "2025-05-01T11:00:00",
-        arrival_location: "New York, NY",
-        train_company: "Amtrak",
-        train_number: "AM4567",
-        duration: "4h 00m",
-        stops: 0
-    }
-];
-
+import AuthPrompt from "../components/AuthPrompt";
 
 const Travel = () => {
     const [travelItems, setTravelItems] = useState([]);
@@ -132,8 +24,6 @@ const Travel = () => {
     const [departureLocation, setDepartureLocation] = useState('');
     const [destination, setDestination] = useState('');
     const [newDriving, setNewDriving] = useState({
-
-        
         type: 'Driving',
         departure_location: '',
         arrival_location: '',
@@ -148,43 +38,26 @@ const Travel = () => {
 
     // Fetch travel options and trips
     useEffect(() => {
-        // Use dummy data for now
-        //setTravelOptions(dummyTravelItems);
-        setIsLoading(false);
-            const fetchTravel = async () => {
-              setIsLoading(true);
-          
-              try {
-                let drivingItems = [];
-          
-                // Fetch driving routes from backend if logged in
-                if (token) {
-                  const res = await fetch('https://leaps-ohwd.onrender.com/api/travel', {
+        const fetchTravelOptions = async () => {
+            try {
+                const response = await fetch('https://leaps-ohwd.onrender.com/api/travel', {
                     headers: {
-                      'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
-                  });
-          
-                  if (res.ok) {
-                    const data = await res.json();
-                    drivingItems = data.filter(item => item.type === 'Driving');
-                  }
-                }
-          
-                // Combine dummy travel with driving items
-                const combined = [...dummyTravelItems, ...drivingItems];
-                setTravelOptions(combined);
-              } catch (err) {
-                console.error('Error fetching travel data:', err);
-                setTravelOptions(dummyTravelItems); // fallback to dummy only
-              } finally {
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch travel options');
+
+                const data = await response.json();
+                setTravelOptions(data);
+            } catch (err) {
+                console.error('Error fetching travel options:', err);
+                setError('Failed to load travel options');
+            } finally {
                 setIsLoading(false);
-              }
-            };
-          
+            }
+        };
 
-
-        // Fetch trips if authenticated
         const fetchTrips = async () => {
             if (token) {
                 try {
@@ -193,7 +66,7 @@ const Travel = () => {
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    
+
                     if (response.ok) {
                         const data = await response.json();
                         setTrips(Array.isArray(data) ? data : []);
@@ -203,7 +76,8 @@ const Travel = () => {
                 }
             }
         };
-        fetchTravel();
+
+        fetchTravelOptions();
         fetchTrips();
     }, [token]);
 
@@ -279,63 +153,61 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
 
     const handleCreateDriving = async () => {
         if (!newDriving.departure_location || !newDriving.arrival_location) {
-          alert('Please enter both departure and arrival locations');
-          return;
+            alert('Please enter both departure and arrival locations');
+            return;
         }
-    
+
         try {
             const distance = await getDistanceFromAPI(
                 newDriving.departure_location,
                 newDriving.arrival_location
-              );
-          
-              // Estimate cost
-              const costEstimate = calculateDrivingCost({
+            );
+
+            const costEstimate = calculateDrivingCost({
                 distance,
                 fuelPrice: 3.5,
                 fuelEfficiency: 25,
                 tolls: 0
-              });
-          
-              const drivingData = {
+            });
+
+            const drivingData = {
                 ...newDriving,
                 price: parseFloat(costEstimate.totalCost),
                 notes: `${newDriving.notes} (Est. distance: ${costEstimate.distance} mi)`
-              };
-          
-              const response = await fetch('https://leaps-ohwd.onrender.com/api/travel', {
+            };
+
+            const response = await fetch('https://leaps-ohwd.onrender.com/api/travel', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(drivingData)
-              });
-          if (!response.ok) {
-            throw new Error('Failed to create driving option');
-          }
-    
-          const createdDriving = await response.json();
-          setTravelOptions((prev) => [createdDriving, ...prev]);
-          //setTravelItems((prev) => [createdDriving, ...prev]);
-    
-          setIsDrivingModalOpen(false);
-          setNewDriving({
-            type: 'Driving',
-            departure_location: '',
-            arrival_location: '',
-            departure: new Date().toISOString().split('T')[0] + 'T08:00',
-            arrival: new Date().toISOString().split('T')[0] + 'T10:00',
-            price: 0,
-            notes: 'Personal vehicle'
-          });
-    
-          alert('Driving route added successfully!');
+            });
+            if (!response.ok) {
+                throw new Error('Failed to create driving option');
+            }
+
+            const createdDriving = await response.json();
+            setTravelOptions((prev) => [createdDriving, ...prev]);
+
+            setIsDrivingModalOpen(false);
+            setNewDriving({
+                type: 'Driving',
+                departure_location: '',
+                arrival_location: '',
+                departure: new Date().toISOString().split('T')[0] + 'T08:00',
+                arrival: new Date().toISOString().split('T')[0] + 'T10:00',
+                price: 0,
+                notes: 'Personal vehicle'
+            });
+
+            alert('Driving route added successfully!');
         } catch (err) {
-          console.error('Error creating driving option:', err);
-          setError('Failed to create driving option. Please try again.');
+            console.error('Error creating driving option:', err);
+            setError('Failed to create driving option. Please try again.');
         }
-      };
+    };
 
     const handleAddToTripClick = (travel) => {
         if (!isAuthenticated()) {
@@ -348,7 +220,6 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
 
     const confirmAddToTrip = async (tripId) => {
         try {
-            // Add to trip API call
             const response = await fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
                 method: 'POST',
                 headers: {
@@ -359,7 +230,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
             });
 
             if (!response.ok) throw new Error('Failed to add travel to trip');
-            
+
             setSelectedTripId(tripId);
             setIsModalOpen(false);
             alert("Travel added to trip!");
@@ -370,13 +241,11 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
 
     const handleCompare = (travel) => {
         setSelectedTravel(travel);
-        
-        // Find similar travel options for the same route
+
         const similar = findSimilarItems(travelOptions, travel);
-        
-        // Sort by price
+
         const sorted = [...similar].sort((a, b) => a.price - b.price);
-        
+
         setSimilarOptions(sorted);
         setIsCompareModalOpen(true);
     };
@@ -387,9 +256,8 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
             setIsCompareModalOpen(false);
             return;
         }
-        
+
         try {
-            // First remove the old travel option
             const removeResponse = await fetch(`https://leaps-ohwd.onrender.com/api/trips/items/${selectedTripId}/travel/${selectedTravel.id}`, {
                 method: 'DELETE',
                 headers: {
@@ -397,7 +265,6 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                 }
             });
 
-            // Then add the new travel option
             const addResponse = await fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
                 method: 'POST',
                 headers: {
@@ -406,7 +273,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                 },
                 body: JSON.stringify({ tripId: selectedTripId, itemType: 'travel', itemId: newTravel.id })
             });
-            
+
             alert(`Swapped ${selectedTravel.type} with ${newTravel.type}`);
             setIsCompareModalOpen(false);
         } catch (err) {
@@ -419,18 +286,17 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
         return date.toLocaleString();
     };
 
-    // Filter travel options based on user input
     const filteredTravelOptions = travelOptions.filter(travel => {
-        const matchesDeparture = departureFilter 
-            ? travel.departure_location.toLowerCase().includes(departureFilter.toLowerCase()) 
+        const matchesDeparture = departureFilter
+            ? travel.departure_location.toLowerCase().includes(departureFilter.toLowerCase())
             : true;
-        const matchesDestination = destinationFilter 
-            ? travel.arrival_location.toLowerCase().includes(destinationFilter.toLowerCase()) 
+        const matchesDestination = destinationFilter
+            ? travel.arrival_location.toLowerCase().includes(destinationFilter.toLowerCase())
             : true;
-        const matchesType = typeFilter 
-            ? travel.type === typeFilter 
+        const matchesType = typeFilter
+            ? travel.type === typeFilter
             : true;
-        
+
         return matchesDeparture && matchesDestination && matchesType;
     });
 
@@ -485,8 +351,6 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                 </label>
             </div>
 
-            
-            {/* Travel List */}
             <div className="travel-list">
                 {filteredTravelOptions.map(travel => (
                     <div key={travel.id} className="travel-item">
@@ -494,7 +358,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                             <h3 className="travel-type">{travel.type}</h3>
                             <p className="travel-price">${travel.price}</p>
                         </div>
-                        
+
                         <div className="travel-details">
                             <div className="travel-route">
                                 <p className="from-label">From:</p>
@@ -502,14 +366,14 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                 <p className="to-label">To:</p>
                                 <p className="to-value">{travel.arrival_location}</p>
                             </div>
-                            
+
                             <div className="travel-times">
                                 <p className="departure-label">Departure:</p>
                                 <p className="departure-value">{formatDateTime(travel.departure)}</p>
                                 <p className="arrival-label">Arrival:</p>
                                 <p className="arrival-value">{formatDateTime(travel.arrival)}</p>
                             </div>
-                            
+
                             {travel.airline && (
                                 <p className="travel-airline">Airline: {travel.airline}</p>
                             )}
@@ -523,11 +387,11 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                 <p className="travel-duration">Duration: {travel.duration}</p>
                             )}
                         </div>
-                        
+
                         <div className="travel-buttons">
-                        <button onClick={() => { handleAddToTripClick(travel); }}>
-                            Add to Trip
-                        </button>
+                            <button onClick={() => { handleAddToTripClick(travel); }}>
+                                Add to Trip
+                            </button>
 
                             {travel.type.toLowerCase() === 'driving' ? (
                                 <button 
@@ -551,8 +415,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                     </div>
                 ))}
             </div>
-            
-            {/* Add to Trip Modal */}
+
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
@@ -584,8 +447,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                     </div>
                 </div>
             )}
-            
-            {/* Comparison Modal */}
+
             {isCompareModalOpen && selectedTravel && (
                 <div className="modal">
                     <div className="modal-content">
@@ -593,19 +455,19 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                         <p className="compare-route">
                             <strong>Route:</strong> {selectedTravel.departure_location} to {selectedTravel.arrival_location}
                         </p>
-                        
+
                         <div className="selected-travel">
                             <h3>Your Selection</h3>
                             <p className="selected-type-price"><strong>{selectedTravel.type}</strong> - ${selectedTravel.price}</p>
                             <p className="selected-departure">Departure: {formatDateTime(selectedTravel.departure)}</p>
                         </div>
-                        
+
                         <div className="similar-options">
                             {similarOptions.length > 0 ? (
                                 similarOptions.map(option => {
                                     const betterDeal = isBetterDeal(option, selectedTravel);
                                     const savings = calculateSavings(option, selectedTravel);
-                                    
+
                                     return (
                                         <div 
                                             key={option.id} 
@@ -631,7 +493,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                 <p className="no-options-message">No similar options found</p>
                             )}
                         </div>
-                        
+
                         <button 
                             className="close-modal-btn"
                             onClick={() => setIsCompareModalOpen(false)}
@@ -643,7 +505,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
             )}
 
             {isDrivingModalOpen && (
-                 <div className="modal">
+                <div className="modal">
                     <div className="modal-content driving-form">
                         <h3>Add Driving Route</h3>
                         <form onSubmit={(e) => { e.preventDefault(); handleCreateDriving(); }}>
@@ -658,7 +520,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                     required
                                 />
                             </div>
-                            
+
                             <div className="form-group">
                                 <label>Arrival Location:</label>
                                 <input
@@ -670,7 +532,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                     required
                                 />
                             </div>
-                            
+
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Departure Date/Time:</label>
@@ -682,7 +544,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                         required
                                     />
                                 </div>
-                                
+
                                 <div className="form-group">
                                     <label>Arrival Date/Time:</label>
                                     <input
@@ -694,7 +556,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                     />
                                 </div>
                             </div>
-                            
+
                             <div className="form-group">
                                 <label>Notes:</label>
                                 <textarea
@@ -704,7 +566,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                     placeholder="Any additional information about this driving route"
                                 ></textarea>
                             </div>
-                            
+
                             <div className="form-actions">
                                 <button type="submit" className="submit-btn">Add Driving Route</button>
                                 <button 
@@ -729,6 +591,5 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
         </div>
     );
 };
-
 
 export default Travel;
