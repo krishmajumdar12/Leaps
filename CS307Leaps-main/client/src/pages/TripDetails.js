@@ -420,41 +420,40 @@ const TripDetails = () => {
             });
 
             const data = await response.json();
-            console.log("Add Friend Response:", data);
 
-            if (!response.ok) {
-                throw new Error(data.message || "Failed to add friend");
-            }
-
-            const newMember = {
-                id: friendToAdd.id,
-                username: friendToAdd.username,
-                profile_pic: friendToAdd.profile_pic,
-                role: "view" // Default role for new members
-            };
-
-            // Add to tripMembers array
-            setTripMembers(prevMembers => [...prevMembers, newMember]);
-
-            // Add default RSVP status for the new member
-            setMemberRsvps(prevRsvps => [
-                ...prevRsvps,
-                {
+            if (response.ok) {
+                // Update UI immediately without waiting for refresh
+                const newMember = {
                     id: friendToAdd.id,
                     username: friendToAdd.username,
-                    status: 'no_response',
-                    response_date: new Date().toISOString()
-                }
-            ]);
-
-            alert("Friend added successfully!");
-            setFriends(friends.filter(friend => friend.id !== selectedFriend));
-
-            // Fetch updated trip members after adding a new friend
-            fetchTripMembers();
-
-            // Reset selection
-            setSelectedFriend("");
+                    profile_pic: friendToAdd.profile_pic,
+                    role: "view" // Default role for new members
+                };
+    
+                // Add to tripMembers array
+                setTripMembers(prevMembers => [...prevMembers, newMember]);
+    
+                // Add default RSVP status for the new member
+                setMemberRsvps(prevRsvps => [
+                    ...prevRsvps,
+                    {
+                        id: friendToAdd.id,
+                        username: friendToAdd.username,
+                        status: 'no_response',
+                        response_date: new Date().toISOString()
+                    }
+                ]);
+    
+                setSuccess("Friend added successfully!");
+                
+                // Remove added friend from the available friends list
+                setFriends(friends.filter(friend => friend.id !== selectedFriend));
+                
+                // Reset selection
+                setSelectedFriend("");
+            } else {
+                throw new Error(data.message || "Failed to add friend");
+            }
         } catch (err) {
             console.error("Error adding friend:", err);
             alert("Failed to add friend.");
