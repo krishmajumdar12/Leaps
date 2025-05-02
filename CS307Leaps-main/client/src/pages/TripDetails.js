@@ -688,12 +688,12 @@ const TripDetails = () => {
 
         if (loading) return <p>Loading...</p>;
 
-        /*if (!preview) return (
+        if (!preview) return (
             <div className="preview-placeholder">
                 <p>{type.charAt(0).toUpperCase() + type.slice(1)} item</p>
                 <p className="preview-id">ID: {id.slice(0, 8)}...</p>
             </div>
-        );*/
+        );
 
         // Render different previews based on item type
         if (type === 'events' || type === 'custom-event') {
