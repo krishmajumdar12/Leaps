@@ -135,9 +135,8 @@ const TripDetails = () => {
 
             const votesData = await votesResponse.json();
 
-            // Map vote counts to trip 
+            // Map vote counts to trip items
             const itemsWithVotes = data.items.map(item => {
-                // Ensure proper matching of trip_item_id with item.id
                 const vote = votesData.find(v => v.trip_item_id === item.id) || {};
                 return {
                     ...item,
@@ -146,18 +145,35 @@ const TripDetails = () => {
                 };
             });
 
+            // Fetch additional trip members
+            const membersResponse = await fetch(`https://leaps-ohwd.onrender.com/api/trips/${id}/members`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            if (!membersResponse.ok) throw new Error("Failed to fetch trip members");
+
+            const additionalMembers = await membersResponse.json();
+
+            // Merge members from `data` and `fetchTripMembers`, preserving roles
+            const mergedMembers = [...data.members, ...additionalMembers].reduce((acc, member) => {
+                const existingMember = acc.find(m => m.id === member.id);
+                if (existingMember) {
+                    // Preserve the role from `data.members` if it exists
+                    existingMember.role = existingMember.role || member.role;
+                } else {
+                    acc.push(member);
+                }
+                return acc;
+            }, []);
+
             setTrip({
                 ...data,
                 items: itemsWithVotes,
                 startDate: data.start_date ? new Date(data.start_date).toISOString().split('T')[0] : '',
                 endDate: data.end_date ? new Date(data.end_date).toISOString().split('T')[0] : ''
             });
+            setTripMembers(mergedMembers);
             setEvents(data.events || []);
-            setTripMembers(data.members || []);
-            fetchTripMembers();
-            setEvents(data.events || []); // Assuming events are part of the trip data
-            setTripMembers(data.members || []); // Ensure members are stored
-            console.log("Trip Members:", data.members); // Debugging log
             await fetchCostSummary();
         } catch (err) {
             setError('Error loading trip. Please try again later.');
@@ -179,18 +195,14 @@ const TripDetails = () => {
 
             const items = await response.json();
 
-            const events = items.map((item) => {
-                const startDate =
-                    item.event_start_date || item.travel_start_date || item.lodging_start_date;
-                const endDate =
-                    item.event_end_date || item.travel_end_date || item.lodging_end_date;
-
-                return {
-                    title: item.name || item.item_type,
-                    startDate: startDate ? new Date(startDate) : null,
-                    endDate: endDate ? new Date(endDate) : null,
-                };
-            });
+            const events = items.map((item) => ({
+                title: item.name,
+                startDate: item.start_date ? new Date(item.start_date) : null,
+                endDate: item.end_date ? new Date(item.end_date) : null,
+                price: item.price,
+                description: item.description,
+                type: item.item_type,
+            }));
 
             setCalendarEvents(events);
         } catch (err) {
@@ -348,7 +360,7 @@ const TripDetails = () => {
             if (!response.ok) throw new Error("Failed to fetch trip members");
 
             const data = await response.json();
-            //setTripMembers(data || []);
+            setTripMembers(data || []);
         } catch (err) {
             console.error("Error fetching trip members:", err);
         }
@@ -356,13 +368,7 @@ const TripDetails = () => {
 
     useEffect(() => {
         if (trip && trip.items) {
-            console.log("Trip Items:", trip.items);
-            const events = trip.items.map((item) => ({
-                title: item.name || item.item_type,
-                startDate: item.start_date ? new Date(item.start_date) : null,
-                endDate: item.end_date ? new Date(item.end_date) : null,
-            }));
-            setCalendarEvents(events);
+            fetchTripItemsWithDates();
         }
     }, [trip]);
 
@@ -801,7 +807,6 @@ const TripDetails = () => {
 
     const handleDateClick = (date) => {
         setSelectedDate(date);
-        console.log('calendarEvents:', calendarEvents);
         const eventsOnDate = calendarEvents.filter((event) => {
             const eventStartDate = event.startDate ? new Date(event.startDate).setHours(0, 0, 0, 0) : null;
             const eventEndDate = event.endDate ? new Date(event.endDate).setHours(23, 59, 59, 999) : null;
@@ -824,7 +829,7 @@ const TripDetails = () => {
                     });
                     return eventsOnDate.map((event, index) => (
                         <div key={index} className="calendar-event">
-                            {event.title}
+                            {event.type}
                         </div>
                     ));
                 }}
@@ -835,7 +840,13 @@ const TripDetails = () => {
                     {eventsForSelectedDate.length > 0 ? (
                         <ul>
                             {eventsForSelectedDate.map((event, index) => (
-                                <li key={index}>{event.title}</li>
+                                <li key={index}>
+                                    <strong>{event.title}</strong>
+                                    <ul>
+                                        {event.price && <li>Price: ${event.price}</li>}
+                                        {event.description && <li>Description: {event.description}</li>}
+                                    </ul>
+                                </li>
                             ))}
                         </ul>
                     ) : (

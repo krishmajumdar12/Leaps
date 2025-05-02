@@ -307,12 +307,14 @@ router.get('/:id/items-with-dates', auth, async (req, res) => {
             return res.status(403).json({ message: 'Not authorized to access this trip' });
         }
 
-        // Fetch trip items with date information
+        // Fetch trip items with date, name, price, and description information
         const itemsResult = await db.query(
             `SELECT ti.*, 
-                    e.start_time AS event_start_date, e.end_time AS event_end_date,
-                    t.departure AS travel_start_date, t.arrival AS travel_end_date,
-                    l.check_in_date AS lodging_start_date, l.check_out_date AS lodging_end_date
+                    COALESCE(e.start_time, t.departure, l.check_in_date) AS start_date,
+                    COALESCE(e.end_time, t.arrival, l.check_out_date) AS end_date,
+                    COALESCE(e.name, t.type, l.name) AS name,
+                    COALESCE(e.price, t.price, l.price_per_night) AS price,
+                    COALESCE(e.description, t.notes, l.description) AS description
              FROM trip_items ti
              LEFT JOIN events e ON ti.item_type = 'event' AND ti.item_id = e.id::TEXT
              LEFT JOIN travel t ON ti.item_type = 'travel' AND ti.item_id = t.id::TEXT
@@ -322,7 +324,6 @@ router.get('/:id/items-with-dates', auth, async (req, res) => {
             [tripId]
         );
 
-        //console.log("Items result:", itemsResult.rows); // Debugging log
         res.json(itemsResult.rows);
     } catch (err) {
         console.error('Error fetching trip items with dates:', err);

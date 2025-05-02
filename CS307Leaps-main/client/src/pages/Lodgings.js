@@ -5,106 +5,6 @@ import { findSimilarItems, isBetterDeal, calculateSavings } from "../utils/compa
 import AuthPrompt from "../components/AuthPrompt"
 import { isAuthenticated, isGuest } from "../services/authService"; 
 
-// Dummy lodging data
-const dummyLodgings = [
-    {
-        id: "1001",
-        name: "The Ritz Carlton",
-        type: "Hotel",
-        location: "New York, NY",
-        price_per_night: 350.00,
-        check_in_date: "2025-05-01",
-        check_out_date: "2025-05-07",
-        description: "Luxury hotel in the heart of Manhattan",
-        rating: 4.8,
-        amenities: ["Free WiFi", "Pool", "Spa", "Fitness Center", "Restaurant"]
-    },
-    {
-        id: "1002",
-        name: "Hilton Garden Inn",
-        type: "Hotel",
-        location: "New York, NY",
-        price_per_night: 220.00,
-        check_in_date: "2025-05-01",
-        check_out_date: "2025-05-07",
-        description: "Comfortable hotel with great amenities",
-        rating: 4.3,
-        amenities: ["Free WiFi", "Fitness Center", "Restaurant"]
-    },
-    {
-        id: "1003",
-        name: "Cozy Studio Apartment",
-        type: "Apartment",
-        location: "New York, NY",
-        price_per_night: 180.00,
-        check_in_date: "2025-05-01",
-        check_out_date: "2025-05-07",
-        description: "Charming studio apartment in downtown",
-        rating: 4.5,
-        amenities: ["Free WiFi", "Kitchen", "Laundry"]
-    },
-    {
-        id: "1004",
-        name: "Four Seasons Hotel",
-        type: "Hotel",
-        location: "Los Angeles, CA",
-        price_per_night: 400.00,
-        check_in_date: "2025-06-10",
-        check_out_date: "2025-06-15",
-        description: "Luxury hotel in Beverly Hills",
-        rating: 4.9,
-        amenities: ["Free WiFi", "Pool", "Spa", "Fitness Center", "Restaurant", "Bar"]
-    },
-    {
-        id: "1005",
-        name: "Hampton Inn",
-        type: "Hotel",
-        location: "Chicago, IL",
-        price_per_night: 150.00,
-        check_in_date: "2025-07-15",
-        check_out_date: "2025-07-20",
-        description: "Affordable hotel in downtown Chicago",
-        rating: 4.0,
-        amenities: ["Free WiFi", "Fitness Center", "Free Breakfast"]
-    },
-    {
-        id: "1006",
-        name: "Luxury Penthouse",
-        type: "Apartment",
-        location: "Los Angeles, CA",
-        price_per_night: 300.00,
-        check_in_date: "2025-06-10",
-        check_out_date: "2025-06-15",
-        description: "Stunning penthouse with city views",
-        rating: 4.7,
-        amenities: ["Free WiFi", "Kitchen", "Laundry", "Parking", "Pool"]
-    },
-    {
-        id: "1007",
-        name: "Budget Inn Express",
-        type: "Hotel",
-        location: "New York, NY",
-        price_per_night: 120.00,
-        check_in_date: "2025-05-01",
-        check_out_date: "2025-05-07",
-        description: "Affordable option in the city",
-        rating: 3.5,
-        amenities: ["Free WiFi", "Free Breakfast"]
-    },
-    {
-        id: "1008",
-        name: "Luxury Loft",
-        type: "Apartment",
-        location: "New York, NY",
-        price_per_night: 250.00,
-        check_in_date: "2025-05-01",
-        check_out_date: "2025-05-07",
-        description: "Spacious loft in Soho",
-        rating: 4.6,
-        amenities: ["Free WiFi", "Kitchen", "Laundry", "Parking"]
-    }
-];
-
 const Lodgings = () => {
     const [lodgings, setLodgings] = useState([]);
     const [trips, setTrips] = useState([]);
@@ -125,11 +25,27 @@ const Lodgings = () => {
 
     // Fetch lodgings and trips
     useEffect(() => {
-        // Your existing code for fetching data
-        setLodgings(dummyLodgings);
-        setIsLoading(false);
-        
-        // Fetch trips if authenticated
+        const fetchLodgings = async () => {
+            try {
+                const response = await fetch('https://leaps-ohwd.onrender.com/api/lodgings', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch lodgings');
+
+                const data = await response.json();
+                console.log('Fetched lodgings:', data);
+                setLodgings(data);
+            } catch (err) {
+                console.error('Error fetching lodgings:', err);
+                setError('Failed to load lodgings');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
         const fetchTrips = async () => {
             if (token) {
                 try {
@@ -138,7 +54,7 @@ const Lodgings = () => {
                             'Authorization': `Bearer ${token}`
                         }
                     });
-                    
+
                     if (response.ok) {
                         const data = await response.json();
                         setTrips(Array.isArray(data) ? data : []);
@@ -149,6 +65,7 @@ const Lodgings = () => {
             }
         };
         
+        fetchLodgings();
         fetchTrips();
     }, [token]);
 
