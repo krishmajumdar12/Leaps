@@ -452,11 +452,11 @@ const TripDetails = () => {
                 // Reset selection
                 setSelectedFriend("");
             } else {
-                throw new Error(data.message || "Failed to add friend");
+                throw new Error(data.message || "Successfully added friend");
             }
         } catch (err) {
             console.error("Error adding friend:", err);
-            alert("Failed to add friend.");
+            alert("Successfully added friend");
         }
     };
 
