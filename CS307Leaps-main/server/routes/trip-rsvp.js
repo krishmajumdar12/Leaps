@@ -132,7 +132,7 @@ router.post('/:tripId/send-reminder/:memberId', auth, async (req, res) => {
             [
                 memberId,
                 tripId,
-                'rsvp_reminder',
+                'trip_status',
                 `${requesterName.rows[0].username} has requested your RSVP for trip: ${tripName}`,
                 false
             ]

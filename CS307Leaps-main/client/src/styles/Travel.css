@@ -169,13 +169,9 @@
 }
 
 .modal-content {
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow-y: auto;
+ display: flex;
+ flex-direction: column;
+ align-items: center; 
 }
 
 .modal h2 {
@@ -418,7 +414,9 @@ button:hover {
 
 
 .driving-form {
+  width: 100%;
     max-width: 600px;
+    margin: 0 auto;
     text-align: left;
 }
 
