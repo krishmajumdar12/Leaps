@@ -77,7 +77,7 @@ const fetchHotels = async (location) => {
   const query = `hotels in ${location || 'New York'}`;
   const params = {
     q: query,
-    engine: 'google',
+    engine: 'google_hotels',
     api_key: serpApiKey
   };
 
@@ -85,7 +85,6 @@ const fetchHotels = async (location) => {
     const response = await axios.get('https://serpapi.com/search.json', { params });
     const hotelsRaw = response.data.hotels_results || [];
     console.log('Result hotel array length:', hotelsRaw.length);
-    console.log('Full API response:', JSON.stringify(response.data, null, 2));
 
     for (const hotel of hotelsRaw) {
       const minPrice = hotel.price
