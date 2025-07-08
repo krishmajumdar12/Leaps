@@ -84,6 +84,8 @@ const fetchHotels = async (location) => {
   try {
     const response = await axios.get('https://serpapi.com/search.json', { params });
     const hotelsRaw = response.data.hotels_results || [];
+    console.log('Result hotel array length:', hotelsRaw.length);
+    console.log('Full API response:', JSON.stringify(response.data, null, 2));
 
     for (const hotel of hotelsRaw) {
       const minPrice = hotel.price
@@ -91,7 +93,7 @@ const fetchHotels = async (location) => {
         : null;
 
       results.push({
-        type: 'lodging',
+        type: 'hotel',
         name: hotel.name || 'Unnamed Hotel',
         location: hotel.address || location || 'Unknown',
         price: hotel.price || 'Price unavailable',

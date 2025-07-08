@@ -23,9 +23,38 @@ const Lodgings = () => {
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
 
+    // Fetch Lodging on enter
+    const fetchLodgings = async () => {
+        try {
+          setIsLoading(true);
+          setError(null);
+      
+          const url = new URL('https://leaps-ohwd.onrender.com/api/lodgings');
+          if (searchQuery) url.searchParams.append('location', searchQuery);
+      
+          const response = await fetch(url.toString(), {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+      
+          if (!response.ok) throw new Error('Failed to fetch lodgings');
+      
+          const data = await response.json();
+          console.log('Fetched lodgings:', data);
+          setLodgings(data);
+        } catch (err) {
+          console.error('Error fetching lodgings:', err);
+          setError('Failed to load lodgings');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+
     // Fetch lodgings and trips
     useEffect(() => {
-        const fetchLodgings = async () => {
+        /*const fetchLodgings = async () => {
             try {
                 const response = await fetch('https://leaps-ohwd.onrender.com/api/lodgings', {
                     headers: {
@@ -44,7 +73,7 @@ const Lodgings = () => {
             } finally {
                 setIsLoading(false);
             }
-        };
+        };*/
 
         const fetchTrips = async () => {
             if (token) {
@@ -182,6 +211,11 @@ const Lodgings = () => {
                     placeholder="Search by name or location" 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          fetchLodgings();
+                        }
+                      }}
                 />
                 <select
                     value={selectedType}
@@ -212,14 +246,14 @@ const Lodgings = () => {
                         
                         <div className="lodging-details">
                             <p className="lodging-location"><strong>Location:</strong> {lodging.location}</p>
-                            <p className="lodging-price"><strong>Price:</strong> ${lodging.price_per_night} per night</p>
+                            <p className="lodging-price"><strong>Price:</strong> ${lodging.price} per night</p>
                             <p className="lodging-rating"><strong>Rating:</strong> {lodging.rating}/5</p>
-                            <p className="lodging-dates">
+                            {/*<p className="lodging-dates">
                                 <strong>Available:</strong> {new Date(lodging.check_in_date).toLocaleDateString()} to {new Date(lodging.check_out_date).toLocaleDateString()}
                             </p>
-                            <p className="lodging-description">{lodging.description}</p>
+                            <p className="lodging-description">{lodging.description}</p> */}
                             
-                            {lodging.amenities && (
+                            {/*lodging.amenities && (
                                 <div className="lodging-amenities">
                                     <strong>Amenities:</strong>
                                     <div className="amenities-list">
@@ -228,7 +262,7 @@ const Lodgings = () => {
                                         ))}
                                     </div>
                                 </div>
-                            )}
+                            )*/}
                         </div>
                         
                         <div className="lodging-buttons">
