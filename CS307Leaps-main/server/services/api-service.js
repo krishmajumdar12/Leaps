@@ -80,8 +80,8 @@ const fetchHotels = async (location) => {
     api_key: serpApiKey,
     q: query,
     hl: 'en',
-    location: location || 'New York, USA',
-    google_domain: 'google.com'
+    check_in_date: '2025-07-09',
+    check_out_date: '2025-07-10'
   };
 
   try {
