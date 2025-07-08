@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const auth = require('../middleware/auth');
-const { fetchHotels } = require('../services/hotelService');
+const { fetchHotels } = require('../services/api-service');
 
 // Get all lodgings
 router.get('/', (req, res, next) => {
