@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const axios = require('axios');
 require('dotenv').config();
 
 // Haversine formula to calculate distance between two points in kilometers
@@ -59,6 +60,53 @@ const randomPrice = (event) => {
     currency: "USD",
     type: "standard"
   };
+};
+
+const fetchHotels = async (location) => {
+  console.log('Received hotel search parameters:', { location });
+
+  const results = [];
+  const serpApiKey = process.env.SERPAPI_KEY;
+
+  if (!serpApiKey) {
+    console.error('SerpAPI key not set in .env');
+    return results;
+  }
+
+  // Construct search query for Google Hotels
+  const query = `hotels in ${location || 'New York'}`;
+  const params = {
+    q: query,
+    engine: 'google',
+    api_key: serpApiKey
+  };
+
+  try {
+    const response = await axios.get('https://serpapi.com/search.json', { params });
+    const hotelsRaw = response.data.hotels_results || [];
+
+    for (const hotel of hotelsRaw) {
+      const minPrice = hotel.price
+        ? parseInt(hotel.price.replace(/[^0-9]/g, '')) || null
+        : null;
+
+      results.push({
+        type: 'lodging',
+        name: hotel.name || 'Unnamed Hotel',
+        location: hotel.address || location || 'Unknown',
+        price: hotel.price || 'Price unavailable',
+        rating: hotel.rating || null,
+        min_price: minPrice,
+        thumbnail: hotel.thumbnail || null,
+        link: hotel.link || null
+      });
+    }
+
+  } catch (error) {
+    console.error('SerpAPI hotel fetch failed:', error.message);
+  }
+
+  return results;
 };
 
 const fetchExternalData = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
@@ -152,4 +200,4 @@ const fetchExternalData = async (query, location, eventType, startDateTime, endD
   return results;
 };
 
-module.exports = { fetchExternalData };
+module.exports = { fetchExternalData, fetchHotels };
