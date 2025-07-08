@@ -76,9 +76,12 @@ const fetchHotels = async (location) => {
   // Construct search query for Google Hotels
   const query = `hotels in ${location || 'New York'}`;
   const params = {
-    q: query,
     engine: 'google_hotels',
-    api_key: serpApiKey
+    api_key: serpApiKey,
+    q: query,
+    hl: 'en',
+    location: location || 'New York, USA',
+    google_domain: 'google.com'
   };
 
   try {
