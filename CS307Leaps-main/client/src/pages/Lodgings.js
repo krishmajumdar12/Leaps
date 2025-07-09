@@ -208,7 +208,7 @@ const Lodgings = () => {
             <div className="filters">
                 <input 
                     type="text" 
-                    placeholder="Search by name or location" 
+                    placeholder="Search by name or location (e.g. New York)" 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => {

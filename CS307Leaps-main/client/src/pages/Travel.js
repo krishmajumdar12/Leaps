@@ -20,9 +20,10 @@ const Travel = () => {
     const [destinationFilter, setDestinationFilter] = useState("");
     const [typeFilter, setTypeFilter] = useState("");
     const [isDrivingModalOpen, setIsDrivingModalOpen] = useState(false);
-    const [method, setMethod] = useState('');
     const [departureLocation, setDepartureLocation] = useState('');
     const [destination, setDestination] = useState('');
+    const [departureDate, setDepartureDate] = useState('');
+    const [arrivalDate, setArrivalDate] = useState('');
     const [newDriving, setNewDriving] = useState({
         type: 'Driving',
         departure_location: '',
@@ -314,41 +315,55 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                     <p>You're browsing as a guest. <a href="/login">Log in</a> or <a href="/signup">sign up</a> to add travel to trips.</p>
                 </div>
             )}
-            <h2>All Travel Items</h2>
+            <h1>All Travel Items</h1>
             <div className="add-driving-section">
+                <p>Plan a road trip or calculate driving costs for your trip</p>
                 <button className="add-driving-btn" onClick={handleOpenDrivingModal}>
                     + Add Driving Route
                 </button>
-                <p>Plan a road trip or calculate driving costs for your trip</p>
             </div>
             <div className="filter">
-                <label>
-                    Transportation Method:
-                    <input
-                        type="text"
-                        value={method}
-                        onChange={(e) => setMethod(e.target.value)}
-                        placeholder="e.g., flight, train, bus, car rental"
-                    />
-                </label>
-                <label>
-                    Departure Location:
-                    <input
-                        type="text"
-                        value={departureLocation}
-                        onChange={(e) => setDepartureLocation(e.target.value)}
-                        placeholder="Enter departure location"
-                    />
-                </label>
-                <label>
-                    Destination:
-                    <input
-                        type="text"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                        placeholder="Enter destination"
-                    />
-                </label>
+                <h2 style={{ color: 'black' }}>Enter flight details:</h2>
+                <div className="filter-row">
+                    <label>
+                        Departure Location:
+                        <input
+                            type="text"
+                            value={departureLocation}
+                            onChange={(e) => setDepartureLocation(e.target.value)}
+                            placeholder="Enter departure location"
+                        />
+                    </label>
+                    <label>
+                        Destination:
+                        <input
+                            type="text"
+                            value={destination}
+                            onChange={(e) => setDestination(e.target.value)}
+                            placeholder="Enter destination"
+                        />
+                    </label>
+                </div>
+                <div className="filter-row">
+                    <label>
+                        Departure:
+                        <input
+                            type="date"
+                            value={departureDate}
+                            onChange={(e) => setDepartureDate(e.target.value)}
+                            placeholder="Enter departure date"
+                        />
+                    </label>
+                    <label>
+                        Arrival:
+                        <input
+                            type="date"
+                            value={arrivalDate}
+                            onChange={(e) => setArrivalDate(e.target.value)}
+                            placeholder="Enter arrival date"
+                        />
+                    </label>
+                </div>
             </div>
 
             <div className="travel-list">
@@ -389,7 +404,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                         </div>
 
                         <div className="travel-buttons">
-                            <button onClick={() => { handleAddToTripClick(travel); }}>
+                            <button className="add-trip-btn" onClick={() => { handleAddToTripClick(travel); }}>
                                 Add to Trip
                             </button>
 
@@ -401,16 +416,16 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                     View & Calculate Costs
                                 </button>
                             ) : (
-                                <button onClick={() => window.open('https://www.booking.com', '_blank')}>
+                                <button className="compare-btn" onClick={() => window.open('https://www.booking.com', '_blank')}>
                                     Book Travel
                                 </button>
                             )}
-                            <button 
+                            {/*<button 
                                 className="compare-btn"
                                 onClick={() => handleCompare(travel)}
                             >
                                 Compare Similar
-                            </button>
+                            </button>*/}
                         </div>
                     </div>
                 ))}
