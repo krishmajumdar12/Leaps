@@ -171,7 +171,7 @@ const fetchExternalData = async (query, location, eventType, startDateTime, endD
           start_time: event.dates?.start?.dateTime || null,
           price: price ? `Starting at: $${price}` : 'Price unavailable',
           distance: distance,
-          image: event.image,
+          image: event.images?.[0]?.url || null,
           min_price: priceObj ? priceObj.min : null
         };
       });
