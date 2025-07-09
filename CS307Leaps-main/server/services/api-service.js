@@ -76,17 +76,16 @@ const fetchHotels = async (location) => {
   // Construct search query for Google Hotels
   const query = `hotels in ${location || 'New York'}`;
   const params = {
-    engine: 'google_hotels',
+    engine: 'google_maps',
     api_key: serpApiKey,
     q: query,
     hl: 'en',
-    check_in_date: '2025-07-09',
-    check_out_date: '2025-07-10'
+    type: 'search'
   };
 
   try {
     const response = await axios.get('https://serpapi.com/search.json', { params });
-    const hotelsRaw = response.data.hotels_results || [];
+    const hotelsRaw = response.data.local_results || [];
     console.log('Result hotel array length:', hotelsRaw.length);
 
     for (const hotel of hotelsRaw) {
@@ -95,14 +94,15 @@ const fetchHotels = async (location) => {
         : null;
 
       results.push({
-        type: 'hotel',
-        name: hotel.name || 'Unnamed Hotel',
+        type: hotel.type,
+        name: hotel.title || 'Unnamed Hotel',
         location: hotel.address || location || 'Unknown',
         price: hotel.price || 'Price unavailable',
         rating: hotel.rating || null,
         min_price: minPrice,
+        description: hotel.description || null,
         thumbnail: hotel.thumbnail || null,
-        link: hotel.link || null
+        link: hotel.website || null
       });
     }
 
