@@ -7,14 +7,13 @@ const SearchResults = ({ results, onAddToTrip }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
-
   const renderItem = (item, type) => {
     if (type === 'events') {
       const date = new Date(item.start_time).toLocaleDateString();
       const price = item.price || 'Price unavailable';
       
       return (
-        <div className="result-item-content">
+        <>
           {/* Add image if available */}
           {(item.image) ? (
             <img 
@@ -34,14 +33,13 @@ const SearchResults = ({ results, onAddToTrip }) => {
           <div className="result-text">
             {`${item.name} (${item.eventType}) - ${item.location} | ${date} | ${price}`}
           </div>
-        </div>
+        </>
       );
     }
     if (type === 'travel') return `${item.type} from ${item.departure_location} to ${item.arrival_location}`;
     if (type === 'lodging') return `${item.name} (${item.type}) - ${item.location}`;
     return null;
   };
-
 
   const handleViewEvent = async (item, type) => {
     console.log(`Recording view for ${type} ID: ${item.id}`);
@@ -85,9 +83,6 @@ const SearchResults = ({ results, onAddToTrip }) => {
     }
   };
 
-
-
-
   const hasResults = Object.values(results).some(items => items.length > 0);
 
   return (
@@ -105,9 +100,7 @@ const SearchResults = ({ results, onAddToTrip }) => {
                     className="result-item"
                   >
                     <div className="result-content">
-                      <div className="result-info">
-                        {renderItem(item, type)}
-                      </div>
+                      {renderItem(item, type)}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();

@@ -151,30 +151,55 @@ const fetchExternalData = async (query, location, eventType, startDateTime, endD
     if (!response.ok) throw new Error(`Ticketmaster API error: ${response.status}`);
     const data = await response.json();
     if (data._embedded?.events) {
-      results.events = data._embedded.events.map(event => {
-        const priceObj = event.priceRanges?.[0] || randomPrice(event);
-        const price = priceObj ? priceObj.min : null;
-        const venue = event._embedded?.venues?.[0];
-        const eventLocation = venue ? venue.location : {};
-        const eventLat = eventLocation.latitude || 0;
-        const eventLon = eventLocation.longitude || 0;
+      results.events = await Promise.all(
+        data._embedded.events.map(async (event) => {
+          let priceObj = event.priceRanges?.[0];
+          // Fallback: fetch full event details if price is missing
+          if (!priceObj) {
+            try {
+              const detailsUrl = `https://app.ticketmaster.com/discovery/v2/events/${event.id}.json?apikey=${tmApiKey}`;
+              const detailsRes = await fetch(detailsUrl);
+              if (detailsRes.ok) {
+                const fullEvent = await detailsRes.json();
+                priceObj = fullEvent.priceRanges?.[0];
+              }
+            } catch (err) {
+              console.warn(`Failed to fetch event details for ${event.id}`, err);
+            }
+          }
 
-        // Calculate the distance from the user's location
-        const distance = getDistance(latitude, longitude, eventLat, eventLon);
-
-        return {
-          id: event.id,
-          type: 'event',
-          name: event.name,
-          eventType: event.classifications?.[0]?.segment?.name || 'unknown',
-          location: venue?.city?.name || normalizedLocation || 'Unknown',
-          start_time: event.dates?.start?.dateTime || null,
-          price: price ? `Starting at: $${price}` : 'Price unavailable',
-          distance: distance,
-          image: event.images?.[0]?.url || null,
-          min_price: priceObj ? priceObj.min : null
-        };
-      });
+          const priceMin = priceObj?.min ?? null;
+          const priceMax = priceObj?.max ?? null;
+          let priceLabel = 'Price unavailable';
+          if (priceMin !== null && priceMax !== null) {
+            priceLabel = `$${priceMin} – $${priceMax}`;
+          } else if (priceMin !== null) {
+            priceLabel = `Starting at $${priceMin}`;
+          }
+      
+          const price = priceObj ? priceObj.min : null;
+          const venue = event._embedded?.venues?.[0];
+          const eventLocation = venue?.location || {};
+          const eventLat = eventLocation.latitude || 0;
+          const eventLon = eventLocation.longitude || 0;
+          const distance = getDistance(latitude, longitude, eventLat, eventLon);
+      
+          return {
+            id: event.id,
+            type: 'event',
+            name: event.name,
+            eventType: event.classifications?.[0]?.segment?.name || 'unknown',
+            location: venue?.city?.name || normalizedLocation || 'Unknown',
+            start_time: event.dates?.start?.dateTime || null,
+            price: priceLabel,
+            distance: distance,
+            image: event.images?.[0]?.url || null,
+            min_price: priceMin,
+            max_price: priceMax
+          };
+        })
+      );
+      
 
       if (priceSort) {
         results.events = results.events.sort((a, b) => {

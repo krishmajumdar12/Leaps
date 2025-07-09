@@ -117,14 +117,32 @@ const SearchBar = ({ onResults }) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search events (e.g., concert)"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearch();
+          }
+        }}
       />
       <input
         placeholder="Location (e.g., New York)"
         onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearch();
+          }
+        }}
       />
       <input
         placeholder="Event Type (optional, e.g., music)"
         onChange={(e) => setFilters({ ...filters, eventType: e.target.value })}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearch();
+          }
+        }}
       />
       <input
         type="datetime-local"
