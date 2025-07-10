@@ -83,7 +83,7 @@ const fetchHotels = async (location) => {
       return results;
     }
 
-    const cityCode = locationResponse.data[0].address.cityCode;
+    const cityCode = locationResponse.data[0].iataCode;
 
     // Get hotels in that city
     const hotelsResponse = await amadeus.shopping.hotelOffers.get({
