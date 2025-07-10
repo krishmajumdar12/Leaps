@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
   }, auth, async (req, res) => {
     const { location } = req.query;
     try {
-        const hotels = await fetchHotels(location, parseInt(page), parseInt(limit));
+        const hotels = await fetchHotels(location);
         res.json(hotels);
     } catch (err) {
         console.error('Error fetching lodgings:', err);
