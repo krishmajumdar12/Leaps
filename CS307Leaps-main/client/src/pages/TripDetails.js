@@ -1405,10 +1405,6 @@ const TripDetails = () => {
                                     {renderTripItems()}
                                 </div>
 
-                                {trip.current && hasEditAccess() && (
-                                    <button onClick={handleAddEvent} className="add-event-btn">Add Event</button>
-                                )}
-
                                 <div className="event-recommendations">
                                     {trip.current && (
                                         <button onClick={navRecommendations}>

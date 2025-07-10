@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const axios = require('axios');
+const Amadeus = require('amadeus');
 require('dotenv').config();
 
 // Haversine formula to calculate distance between two points in kilometers
@@ -62,7 +63,60 @@ const randomPrice = (event) => {
   };
 };
 
+const amadeus = new Amadeus({
+  clientId: process.env.AMADEUS_API_KEY,
+  clientSecret: process.env.AMADEUS_API_SECRET
+});
+
 const fetchHotels = async (location) => {
+  const results = [];
+
+  try {
+    // Get geocode for location
+    const locationResponse = await amadeus.referenceData.locations.get({
+      keyword: location,
+      subType: 'CITY'
+    });
+
+    if (!locationResponse.data || locationResponse.data.length === 0) {
+      console.error('City not found');
+      return results;
+    }
+
+    const cityCode = locationResponse.data[0].address.cityCode;
+
+    // Get hotels in that city
+    const hotelsResponse = await amadeus.shopping.hotelOffers.get({
+      cityCode: cityCode,
+    });
+
+    const hotelOffers = hotelsResponse.data || [];
+
+    for (const hotelOffer of hotelOffers) {
+      const hotel = hotelOffer.hotel;
+      const offer = hotelOffer.offers?.[0];
+
+      results.push({
+        type: hotel.hotelId || 'hotel',
+        name: hotel.name || 'Unnamed Hotel',
+        location: hotel.address?.lines?.join(', ') || location,
+        price: offer?.price?.total ? `$${offer.price.total}` : 'Price unavailable',
+        rating: hotel.rating || null,
+        min_price: offer?.price?.total ? parseFloat(offer.price.total) : null,
+        description: hotel.description?.text || null,
+        thumbnail: hotel.media?.[0]?.uri || null,
+        link: offer?.url || null
+      });
+    }
+
+  } catch (err) {
+    console.error('Amadeus hotel fetch failed:', err.response?.data || err.message);
+  }
+
+  return results;
+};
+
+/*const fetchHotels = async (location) => {
   console.log('Received hotel search parameters:', { location });
 
   const results = [];
@@ -111,7 +165,7 @@ const fetchHotels = async (location) => {
   }
 
   return results;
-};
+};*/
 
 const fetchExternalData = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
   console.log('Received parameters:', { query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude }); // Debugging log
