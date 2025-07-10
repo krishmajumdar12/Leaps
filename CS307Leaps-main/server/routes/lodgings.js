@@ -9,9 +9,9 @@ router.get('/', (req, res, next) => {
     req.allowGuest = true; // Enable guest access for this route
     next();
   }, auth, async (req, res) => {
-    const { location } = req.query;
+    const { location, page, limit } = req.query;
     try {
-        const hotels = await fetchHotels(location);
+        const hotels = await fetchHotels(location, parseInt(page), parseInt(limit));
         res.json(hotels);
     } catch (err) {
         console.error('Error fetching lodgings:', err);

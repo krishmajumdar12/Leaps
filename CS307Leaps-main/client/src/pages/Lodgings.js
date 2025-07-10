@@ -19,6 +19,8 @@ const Lodgings = () => {
     const [selectedType, setSelectedType] = useState("");
     const [priceOrder, setPriceOrder] = useState("price-asc");
     const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(6);
     
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
@@ -31,6 +33,8 @@ const Lodgings = () => {
       
           const url = new URL('https://leaps-ohwd.onrender.com/api/lodgings');
           if (searchQuery) url.searchParams.append('location', searchQuery);
+          url.searchParams.append('page', currentPage);
+          url.searchParams.append('limit', pageSize);
       
           const response = await fetch(url.toString(), {
             headers: {
@@ -96,7 +100,7 @@ const Lodgings = () => {
         
         fetchLodgings();
         fetchTrips();
-    }, [token]);
+    }, [currentPage, searchQuery, pageSize, token]);
 
     const handleAddToTrip = (lodging) => {
         if (!isAuthenticated()) {
@@ -214,6 +218,7 @@ const Lodgings = () => {
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           fetchLodgings();
+                          setCurrentPage(1);
                         }
                       }}
                 />
@@ -368,6 +373,16 @@ const Lodgings = () => {
                         >
                             Close
                         </button>
+
+                        
+                        <button 
+                            onClick={() => setCurrentPage(prev => prev + 1)}
+                            disabled={isLoading || lodgings.length === 0} 
+                        >
+                            Next Page
+                        </button>
+
+
                     </div>
                 </div>
             )}

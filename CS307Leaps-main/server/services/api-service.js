@@ -68,18 +68,18 @@ const amadeus = new Amadeus({
   clientSecret: process.env.AMADEUS_API_SECRET
 });
 
-const fetchHotels = async (location) => {
+const fetchHotels = async (location, page, limit) => {
   const results = [];
-  console.log('Received hotel search parameters:', { location });
+  console.log('Received hotel search parameters:', { location, page, limit });
 
   try {
-    // Get city code from location keyword
+    // Get city code from location name
     const locationResponse = await amadeus.referenceData.locations.get({
       keyword: location,
       subType: 'CITY',
     });
 
-    if (!locationResponse.data || locationResponse.data.length === 0) {
+    if (!locationResponse.data?.length) {
       console.error('City not found');
       return results;
     }
@@ -87,54 +87,60 @@ const fetchHotels = async (location) => {
     const cityCode = locationResponse.data[0].iataCode;
     console.log(`City code for ${location}:`, cityCode);
 
-    // Get list of hotels by city code
+    // Get hotels by city code
     const hotelsListResponse = await amadeus.referenceData.locations.hotels.byCity.get({
-      cityCode: cityCode,
+      cityCode,
     });
 
-    if (!hotelsListResponse.data || hotelsListResponse.data.length === 0) {
-      console.error('No hotels found in city');
+    const hotelIdsArray = hotelsListResponse.data
+      .map(hotel => hotel.hotelId)
+      .filter(Boolean);
+
+    if (hotelIdsArray.length === 0) {
+      console.log('No hotels found for city');
       return results;
     }
 
-    // Extract hotel IDs as comma-separated string
-    const hotelIds = hotelsListResponse.data
-      .map((hotel) => hotel.hotelId)
-      .filter(Boolean)
-      .join(',');
+    // Put hotel IDs in pages
+    const startIndex = (page - 1) * limit;
+    const hotelIdsPage = hotelIdsArray.slice(startIndex, startIndex + limit);
 
-    if (!hotelIds) {
-      console.error('No valid hotel IDs found');
+    if (hotelIdsPage.length === 0) {
+      console.log('No hotels on this page');
       return results;
     }
 
-    // Get hotel offers by hotel IDs (assuming 2 adult guest)
+    const hotelIdsString = hotelIdsPage.join(',');
+
+    // Fetch offers for just this page of hotel IDs
     const offersResponse = await amadeus.shopping.hotelOffersSearch.get({
-      hotelIds: hotelIds,
+      hotelIds: hotelIdsString,
       adults: '2',
     });
 
     const hotelOffers = offersResponse.data || [];
 
-    // Format the results
     for (const hotelOffer of hotelOffers) {
       const hotel = hotelOffer.hotel;
       const offer = hotelOffer.offers?.[0];
 
       results.push({
-        type: hotel.hotelId || 'hotel',
-        name: hotel.name || 'Unnamed Hotel',
+        id: hotel.hotelId,
+        name: hotel.name,
         location: hotel.address?.lines?.join(', ') || location,
-        price: offer?.price?.total ? `$${offer.price.total}` : 'Price unavailable',
+        price_per_night: offer?.price?.total ? parseFloat(offer.price.total) : null,
         rating: hotel.rating || null,
-        min_price: offer?.price?.total ? parseFloat(offer.price.total) : null,
-        description: hotel.description?.text || null,
+        check_in_date: offer?.checkInDate || null,
+        check_out_date: offer?.checkOutDate || null,
+        refundable: offer?.policies?.refundable?.cancellationRefund || false,
         thumbnail: hotel.media?.[0]?.uri || null,
-        link: offer?.url || null,
+        description: offer?.room?.description?.text || '',
+        type: 'Hotel',
+        link: offer?.self || null,
       });
     }
   } catch (err) {
-    console.error('Amadeus hotel fetch failed:', err.response?.data || err.message);
+    console.error('Amadeus hotel fetch failed:', err.message || err);
   }
 
   return results;
