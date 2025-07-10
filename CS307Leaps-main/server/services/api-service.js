@@ -68,75 +68,72 @@ const amadeus = new Amadeus({
   clientSecret: process.env.AMADEUS_API_SECRET
 });
 
-const fetchHotels = async (location, page, limit) => {
+const fetchHotels = async (location) => {
   const results = [];
-  console.log('Received hotel search parameters:', { location, page, limit });
+  console.log('Received hotel search parameters:', { location });
 
   try {
-    // Get city code from location name
+    // Search location
     const locationResponse = await amadeus.referenceData.locations.get({
       keyword: location,
-      subType: 'CITY',
     });
 
     if (!locationResponse.data?.length) {
-      console.error('City not found');
+      console.error('Location not found');
       return results;
     }
 
-    const cityCode = locationResponse.data[0].iataCode;
-    console.log(`City code for ${location}:`, cityCode);
+    // Try to find an entry with cityCode (iataCode) first
+    let cityData = locationResponse.data.find(item => item.iataCode);
 
-    // Get hotels by city code
-    const hotelsListResponse = await amadeus.referenceData.locations.hotels.byCity.get({
-      cityCode,
-    });
+    // If no iataCode found, fallback to first entry with geoCode
+    if (!cityData) {
+      cityData = locationResponse.data.find(item => item.geoCode && item.geoCode.latitude && item.geoCode.longitude);
+    }
 
-    const hotelIdsArray = hotelsListResponse.data
-      .map(hotel => hotel.hotelId)
-      .filter(Boolean);
-
-    if (hotelIdsArray.length === 0) {
-      console.log('No hotels found for city');
+    if (!cityData) {
+      console.error('No valid cityCode or geoCode found in location data');
       return results;
     }
 
-    // Put hotel IDs in pages
-    const startIndex = (page - 1) * limit;
-    const hotelIdsPage = hotelIdsArray.slice(startIndex, startIndex + limit);
+    const cityCode = cityData.iataCode;
+    const geoCode = cityData.geoCode;
 
-    if (hotelIdsPage.length === 0) {
-      console.log('No hotels on this page');
+    console.log(`Location found: cityCode=${cityCode}, geoCode=${JSON.stringify(geoCode)}`);
+
+    let hotelsListResponse;
+
+    if (cityCode) {
+      // Use byCity endpoint if cityCode available
+      hotelsListResponse = await amadeus.referenceData.locations.hotels.byCity.get({
+        cityCode,
+      });
+    } else if (geoCode && geoCode.latitude && geoCode.longitude) {
+      // Fallback to byGeocode endpoint if no cityCode
+      hotelsListResponse = await amadeus.referenceData.locations.hotels.byGeocode.get({
+        latitude: geoCode.latitude,
+        longitude: geoCode.longitude,
+      });
+    } else {
+      console.error('No city code or geo code available for hotels fetch');
       return results;
     }
 
-    const hotelIdsString = hotelIdsPage.join(',');
+    if (!hotelsListResponse.data?.length) {
+      console.log('No hotels found for location');
+      return results;
+    }
 
-    // Fetch offers for just this page of hotel IDs
-    const offersResponse = await amadeus.shopping.hotelOffersSearch.get({
-      hotelIds: hotelIdsString,
-      adults: '2',
-    });
-
-    const hotelOffers = offersResponse.data || [];
-
-    for (const hotelOffer of hotelOffers) {
-      const hotel = hotelOffer.hotel;
-      const offer = hotelOffer.offers?.[0];
-
+    for (const hotel of hotelsListResponse.data) {
       results.push({
         id: hotel.hotelId,
         name: hotel.name,
         location: hotel.address?.lines?.join(', ') || location,
-        price_per_night: offer?.price?.total ? parseFloat(offer.price.total) : null,
+        latitude: hotel.geoCode?.latitude || null,
+        longitude: hotel.geoCode?.longitude || null,
         rating: hotel.rating || null,
-        check_in_date: offer?.checkInDate || null,
-        check_out_date: offer?.checkOutDate || null,
-        refundable: offer?.policies?.refundable?.cancellationRefund || false,
         thumbnail: hotel.media?.[0]?.uri || null,
-        description: offer?.room?.description?.text || '',
         type: 'Hotel',
-        link: offer?.self || null,
       });
     }
   } catch (err) {
@@ -145,6 +142,8 @@ const fetchHotels = async (location, page, limit) => {
 
   return results;
 };
+
+
 
 /*const fetchHotels = async (location) => {
   console.log('Received hotel search parameters:', { location });

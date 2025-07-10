@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
     req.allowGuest = true; // Enable guest access for this route
     next();
   }, auth, async (req, res) => {
-    const { location, page, limit } = req.query;
+    const { location } = req.query;
     try {
         const hotels = await fetchHotels(location, parseInt(page), parseInt(limit));
         res.json(hotels);
