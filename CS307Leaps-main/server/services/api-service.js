@@ -76,6 +76,7 @@ const fetchHotels = async (location) => {
     // Search location
     const locationResponse = await amadeus.referenceData.locations.get({
       keyword: location,
+      subType: 'CITY',
     });
 
     if (!locationResponse.data?.length) {
