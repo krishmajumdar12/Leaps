@@ -70,13 +70,19 @@ const amadeus = new Amadeus({
 
 const fetchHotels = async (location) => {
   const results = [];
+  if (!amadeus || !amadeus.referenceData || !amadeus.referenceData.locations) {
+    console.error('Amadeus client not initialized properly');
+    return [];
+  }
+  console.log('Received hotel search parameters:', { location });
 
   try {
     // Get geocode for location
     const locationResponse = await amadeus.referenceData.locations.get({
-      keyword: location,
+      keyword: 'Chicago',
       subType: 'CITY'
     });
+    console.log("Location response:", JSON.stringify(res.data, null, 2));
 
     if (!locationResponse.data || locationResponse.data.length === 0) {
       console.error('City not found');
