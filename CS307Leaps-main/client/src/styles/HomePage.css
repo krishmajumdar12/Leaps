@@ -108,8 +108,8 @@ body {
   }
   
   .home-page .hero {
-    background-color: #eff3f8;
-    /*background-color: #e3e8ef;*/
+    /*background-color: #eff3f8;*/
+    background-color: #ccdef6;
     /*background-color: #020d1c;*/
     display: flex;
     align-items: center;
@@ -163,7 +163,7 @@ body {
   }
   
   .home-page .problem {
-    background-color: #eff3f8;
+    background-color: #ccdef6;
     /*background-color: #020d1c;*/
     padding: 80px 0;
   }
@@ -240,7 +240,7 @@ body {
   }
   
   .home-page .features {
-    background-color: #eff3f8;
+    background-color: #ccdef6;
     /*background-color: #020d1c;*/
     text-align: center;
   }
@@ -278,7 +278,7 @@ body {
   
   .home-page .how-it-works {
     text-align: center;
-    background-color: #eff3f8;
+    background-color: #ccdef6;
     /*background-color: #020d1c;*/
   }
 

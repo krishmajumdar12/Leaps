@@ -284,8 +284,16 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
 
     const formatDateTime = (dateTimeStr) => {
         const date = new Date(dateTimeStr);
-        return date.toLocaleString();
+        return date.toLocaleString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
     };
+    
 
     const filteredTravelOptions = travelOptions.filter(travel => {
         const matchesDeparture = departureFilter

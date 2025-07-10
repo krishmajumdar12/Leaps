@@ -64,7 +64,7 @@ function App() {
     >
       <Router>
         <Navbar />
-        <div style={{ padding: "1rem" }}>          
+        <div /*style={{ padding: "1rem" }}*/>          
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/login" element={<Login setAuth={setAuth} setTheme={setTheme} />} />

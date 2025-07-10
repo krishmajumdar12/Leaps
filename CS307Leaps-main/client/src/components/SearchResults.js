@@ -10,7 +10,7 @@ const SearchResults = ({ results, onAddToTrip }) => {
   const renderItem = (item, type) => {
     if (type === 'events') {
       const date = new Date(item.start_time).toLocaleDateString();
-      const price = item.price || 'Price unavailable';
+      const price = item.price;
       
       return (
         <>

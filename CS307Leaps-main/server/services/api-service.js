@@ -175,6 +175,8 @@ const fetchExternalData = async (query, location, eventType, startDateTime, endD
             priceLabel = `$${priceMin} – $${priceMax}`;
           } else if (priceMin !== null) {
             priceLabel = `Starting at $${priceMin}`;
+          } else {
+            priceLabel = 'Dynamic pricing — view on Ticketmaster';
           }
       
           const price = priceObj ? priceObj.min : null;
