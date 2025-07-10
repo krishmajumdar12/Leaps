@@ -70,19 +70,14 @@ const amadeus = new Amadeus({
 
 const fetchHotels = async (location) => {
   const results = [];
-  if (!amadeus || !amadeus.referenceData || !amadeus.referenceData.locations) {
-    console.error('Amadeus client not initialized properly');
-    return [];
-  }
   console.log('Received hotel search parameters:', { location });
 
   try {
-    // Get geocode for location
+    // Get city code from location keyword
     const locationResponse = await amadeus.referenceData.locations.get({
-      keyword: 'Chicago',
-      subType: 'CITY'
+      keyword: location,
+      subType: 'CITY',
     });
-    console.log("Location response:", JSON.stringify(locationResponse.data, null, 2));
 
     if (!locationResponse.data || locationResponse.data.length === 0) {
       console.error('City not found');
@@ -90,14 +85,38 @@ const fetchHotels = async (location) => {
     }
 
     const cityCode = locationResponse.data[0].iataCode;
+    console.log(`City code for ${location}:`, cityCode);
 
-    // Get hotels in that city
-    const hotelsResponse = await amadeus.shopping.hotelOffers.get({
+    // Get list of hotels by city code
+    const hotelsListResponse = await amadeus.referenceData.locations.hotels.byCity.get({
       cityCode: cityCode,
     });
 
-    const hotelOffers = hotelsResponse.data || [];
+    if (!hotelsListResponse.data || hotelsListResponse.data.length === 0) {
+      console.error('No hotels found in city');
+      return results;
+    }
 
+    // Extract hotel IDs as comma-separated string
+    const hotelIds = hotelsListResponse.data
+      .map((hotel) => hotel.hotelId)
+      .filter(Boolean)
+      .join(',');
+
+    if (!hotelIds) {
+      console.error('No valid hotel IDs found');
+      return results;
+    }
+
+    // Get hotel offers by hotel IDs (assuming 2 adult guest)
+    const offersResponse = await amadeus.shopping.hotelOffersSearch.get({
+      hotelIds: hotelIds,
+      adults: '2',
+    });
+
+    const hotelOffers = offersResponse.data || [];
+
+    // Format the results
     for (const hotelOffer of hotelOffers) {
       const hotel = hotelOffer.hotel;
       const offer = hotelOffer.offers?.[0];
@@ -111,10 +130,9 @@ const fetchHotels = async (location) => {
         min_price: offer?.price?.total ? parseFloat(offer.price.total) : null,
         description: hotel.description?.text || null,
         thumbnail: hotel.media?.[0]?.uri || null,
-        link: offer?.url || null
+        link: offer?.url || null,
       });
     }
-
   } catch (err) {
     console.error('Amadeus hotel fetch failed:', err.response?.data || err.message);
   }
