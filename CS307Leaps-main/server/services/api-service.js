@@ -63,10 +63,9 @@ const randomPrice = (event) => {
   };
 };
 
-const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';
-
 const fetchHotels = async (location) => {
   const results = [];
+  const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
   try {
     // Use Places Text Search API with query 'hotels in {location}'
