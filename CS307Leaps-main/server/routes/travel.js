@@ -9,6 +9,7 @@ router.get('/', (req, res, next) => {
     req.allowGuest = true;
     next();
   }, auth, async (req, res) => {
+    const { origin, destination, departureDate } = req.query;
     try {
       const flights = await fetchFlights(origin, destination, departureDate);
       res.json(flights);
