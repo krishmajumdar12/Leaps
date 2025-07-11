@@ -63,12 +63,54 @@ const randomPrice = (event) => {
   };
 };
 
+const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';
+
+const fetchHotels = async (location) => {
+  const results = [];
+
+  try {
+    // Use Places Text Search API with query 'hotels in {location}'
+    const response = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
+      params: {
+        query: `hotels in ${location}`,
+        key: GOOGLE_API_KEY,
+      },
+    });
+
+    if (response.data.status !== 'OK') {
+      console.error('Google Places API error:', response.data.status, response.data.error_message);
+      return results;
+    }
+
+    const hotels = response.data.results;
+
+    for (const hotel of hotels) {
+      results.push({
+        id: hotel.place_id,
+        name: hotel.name,
+        address: hotel.formatted_address || null,
+        rating: hotel.rating || null,
+        user_ratings_total: hotel.user_ratings_total || null,
+        types: hotel.types[0] || [],
+        location: hotel.geometry?.location || null,
+        photos: hotel.photos ? hotel.photos.map(photo => 
+          `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=${GOOGLE_API_KEY}`
+        ) : [],
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching hotels from Google Places:', error.message || error);
+  }
+
+  return results;
+};
+
 const amadeus = new Amadeus({
   clientId: process.env.AMADEUS_API_KEY,
   clientSecret: process.env.AMADEUS_API_SECRET
 });
 
-const fetchHotels = async (location) => {
+/*const fetchHotels = async (location) => {
   const results = [];
   console.log('Received hotel search parameters:', { location });
 
@@ -109,7 +151,7 @@ const fetchHotels = async (location) => {
       return results;
     }
 
-    const hotels = hotelsListResponse.data?.slice(0, 15) || [];
+    const hotels = hotelsListResponse.data?.slice(0, 3) || [];
 
     for (const hotel of hotels) {
       try {
@@ -139,7 +181,7 @@ const fetchHotels = async (location) => {
         });
       } catch (err) {
         console.warn(`No offer found for hotel ${hotel.hotelId}:`, err.message || err);
-        // Optional: push minimal data if desired
+        // Push minimal data if no in depth details found
         results.push({
           id: hotel.hotelId,
           name: hotel.name,
@@ -159,7 +201,7 @@ const fetchHotels = async (location) => {
   }
 
   return results;
-};
+};*/
 
 /*const fetchHotels = async (location) => {
   console.log('Received hotel search parameters:', { location });

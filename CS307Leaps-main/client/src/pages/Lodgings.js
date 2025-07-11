@@ -246,7 +246,7 @@ const Lodgings = () => {
                         
                         <div className="lodging-details">
                             <p className="lodging-location"><strong>Location:</strong> {lodging.location}</p>
-                            <p className="lodging-price"><strong>Price:</strong> ${lodging.price} per night</p>
+                            <p className="lodging-price"><strong>Price:</strong> ${lodging.price_per_night} per night</p>
                             <p className="lodging-rating"><strong>Rating:</strong> {lodging.rating}/5</p>
                             {/*<p className="lodging-dates">
                                 <strong>Available:</strong> {new Date(lodging.check_in_date).toLocaleDateString()} to {new Date(lodging.check_out_date).toLocaleDateString()}
