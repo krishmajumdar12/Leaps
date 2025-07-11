@@ -428,4 +428,4 @@ const fetchExternalData = async (query, location, eventType, startDateTime, endD
   return results;
 };
 
-module.exports = { fetchExternalData, fetchHotels };
+module.exports = { fetchExternalData, fetchHotels, fetchFlights };

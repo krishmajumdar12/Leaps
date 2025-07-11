@@ -368,7 +368,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                             onChange={(e) => setDepartureLocation(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                  fetchTravelOptions(departureLocation, destination, departureDate, returnDate);
+                                  fetchTravelOptions(departureLocation, destination, departureDate);
                                 }
                             }}
                             placeholder="Enter departure location"
@@ -382,7 +382,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                             onChange={(e) => setDestination(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                  fetchTravelOptions(departureLocation, destination, departureDate, returnDate);
+                                  fetchTravelOptions(departureLocation, destination, departureDate);
                                 }
                             }}
                             placeholder="Enter destination"
@@ -398,7 +398,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                             onChange={(e) => setDepartureDate(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                  fetchTravelOptions(departureLocation, destination, departureDate, returnDate);
+                                  fetchTravelOptions(departureLocation, destination, departureDate);
                                 }
                             }}
                             placeholder="Enter departure date"
