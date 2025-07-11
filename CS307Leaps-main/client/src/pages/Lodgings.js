@@ -180,7 +180,7 @@ const Lodgings = () => {
     const filteredLodgings = lodgings.filter(lodging => {
         const matchesSearch = searchQuery 
             ? lodging.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-              lodging.location.toLowerCase().includes(searchQuery.toLowerCase())
+              lodging.address.toLowerCase().includes(searchQuery.toLowerCase())
             : true;
         const matchesType = selectedType 
             ? lodging.type === selectedType 
@@ -241,11 +241,11 @@ const Lodgings = () => {
                     <div key={lodging.id} className="lodging-item">
                         <div className="lodging-header">
                             <h3 className="lodging-name">{lodging.name}</h3>
-                            <span className="lodging-type">{lodging.type}</span>
+                            <span className="lodging-type">{lodging.types}</span>
                         </div>
                         
                         <div className="lodging-details">
-                            <p className="lodging-location"><strong>Location:</strong> {lodging.location}</p>
+                            <p className="lodging-location"><strong>Location:</strong> {lodging.address}</p>
                             <p className="lodging-price"><strong>Price:</strong> ${lodging.price_per_night} per night</p>
                             <p className="lodging-rating"><strong>Rating:</strong> {lodging.rating}/5</p>
                             {/*<p className="lodging-dates">
@@ -320,7 +320,7 @@ const Lodgings = () => {
             {isCompareModalOpen && selectedLodging && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h2>Similar Lodgings in {selectedLodging.location.split(',')[0]}</h2>
+                        <h2>Similar Lodgings in nearby:</h2>
                         
                         <div className="selected-lodging">
                             <h3>Your Selection</h3>

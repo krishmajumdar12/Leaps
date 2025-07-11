@@ -23,7 +23,7 @@ const Travel = () => {
     const [departureLocation, setDepartureLocation] = useState('');
     const [destination, setDestination] = useState('');
     const [departureDate, setDepartureDate] = useState('');
-    const [arrivalDate, setArrivalDate] = useState('');
+    //const [arrivalDate, setArrivalDate] = useState('');
     const [newDriving, setNewDriving] = useState({
         type: 'Driving',
         departure_location: '',
@@ -37,9 +37,36 @@ const Travel = () => {
     const [showAuthPrompt, setShowAuthPrompt] = useState(false);
     const navigate = useNavigate();
 
-    // Fetch travel options and trips
+    // Fetch travel options
+    const fetchTravelOptions = async () => {
+        try {
+            const url = new URL('https://leaps-ohwd.onrender.com/api/travel');
+            
+            // Append query parameters
+            url.searchParams.append('origin', departureLocation);
+            url.searchParams.append('destination', destination);
+            url.searchParams.append('departureDate', departureDate);
+    
+            const response = await fetch(url.toString(), {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            if (!response.ok) throw new Error('Failed to fetch travel options');
+    
+            const data = await response.json();
+            setTravelOptions(data);
+        } catch (err) {
+            console.error('Error fetching travel options:', err);
+            setError('Failed to load travel options');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
     useEffect(() => {
-        const fetchTravelOptions = async () => {
+        /*const fetchTravelOptions = async () => {
             try {
                 const response = await fetch('https://leaps-ohwd.onrender.com/api/travel', {
                     headers: {
@@ -57,7 +84,7 @@ const Travel = () => {
             } finally {
                 setIsLoading(false);
             }
-        };
+        };*/
 
         const fetchTrips = async () => {
             if (token) {
@@ -339,6 +366,11 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                             type="text"
                             value={departureLocation}
                             onChange={(e) => setDepartureLocation(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  fetchTravelOptions(departureLocation, destination, departureDate, returnDate);
+                                }
+                            }}
                             placeholder="Enter departure location"
                         />
                     </label>
@@ -348,6 +380,11 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                             type="text"
                             value={destination}
                             onChange={(e) => setDestination(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  fetchTravelOptions(departureLocation, destination, departureDate, returnDate);
+                                }
+                            }}
                             placeholder="Enter destination"
                         />
                     </label>
@@ -359,10 +396,15 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                             type="date"
                             value={departureDate}
                             onChange={(e) => setDepartureDate(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  fetchTravelOptions(departureLocation, destination, departureDate, returnDate);
+                                }
+                            }}
                             placeholder="Enter departure date"
                         />
                     </label>
-                    <label>
+                    {/*<label>
                         Arrival:
                         <input
                             type="date"
@@ -370,7 +412,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                             onChange={(e) => setArrivalDate(e.target.value)}
                             placeholder="Enter arrival date"
                         />
-                    </label>
+                    </label>*/}
                 </div>
             </div>
 

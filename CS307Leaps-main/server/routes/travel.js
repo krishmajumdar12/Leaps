@@ -9,11 +9,11 @@ router.get('/', (req, res, next) => {
     next();
   }, auth, async (req, res) => {
     try {
-        const result = await db.query('SELECT * FROM travel');
-        res.json(result.rows);
+      const flights = await fetchFlights(origin, destination, departureDate);
+      res.json(flights);
     } catch (err) {
-        console.error('Error fetching travel items:', err);
-        res.status(500).json({ message: 'Server error fetching travel items' });
+      console.error('Error fetching travel items:', err);
+      res.status(500).json({ message: 'Server error fetching travel items' });
     }
 });
 

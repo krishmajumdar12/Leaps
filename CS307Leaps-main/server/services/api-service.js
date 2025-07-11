@@ -109,6 +109,62 @@ const amadeus = new Amadeus({
   clientSecret: process.env.AMADEUS_API_SECRET
 });
 
+async function getIATACode(cityName) {
+  try {
+    const response = await amadeus.referenceData.locations.get({
+      keyword: cityName,
+      subType: 'AIRPORT'
+    });
+    return response.data[0]?.iataCode || null;
+  } catch (err) {
+    console.error(`Error fetching IATA code for ${cityName}:`, err);
+    return null;
+  }
+}
+
+const fetchFlights = async (origin, destination, departureDate) => {
+  try {
+    const originIATA = await getIATACode(origin);
+    const destinationIATA = await getIATACode(destination);
+    const response = await amadeus.shopping.flightOffersSearch.get({
+      originLocationCode: originIATA,
+      destinationLocationCode: destinationIATA,
+      departureDate,
+      adults: 1,
+    });
+
+    const offers = response.data;
+
+    offers.forEach((offer, index) => {
+      const price = offer.price.total;
+      const itinerary = offer.itineraries[0];
+      const segment = itinerary.segments[0];
+
+      /*console.log(`\nFlight Option ${index + 1}`);
+      console.log(`Airline: ${segment.carrierCode}`);
+      console.log(`From: ${segment.departure.iataCode} at ${segment.departure.at}`);
+      console.log(`To: ${segment.arrival.iataCode} at ${segment.arrival.at}`);
+      console.log(`Total Price: $${price}`);*/
+    });
+
+    return offers.map((offer) => {
+      const segment = offer.itineraries[0].segments[0];
+      return {
+        type: segment.carrierCode,
+        departure_location: segment.departure.iataCode,
+        arrival_location: segment.arrival.iataCode,
+        departure: segment.departure.at,
+        arrival: segment.arrival.at,
+        price: offer.price.total
+      };
+    });
+
+  } catch (error) {
+    console.error('Error fetching flight offers:', error);
+    return [];
+  }
+}
+
 /*const fetchHotels = async (location) => {
   const results = [];
   console.log('Received hotel search parameters:', { location });
