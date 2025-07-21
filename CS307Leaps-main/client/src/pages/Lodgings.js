@@ -217,14 +217,14 @@ const Lodgings = () => {
                         }
                       }}
                 />
-                <select
+                {/*<select
                     value={selectedType}
                     onChange={(e) => setSelectedType(e.target.value)}
                 >
                     <option value="">All Types</option>
                     <option value="Hotel">Hotel</option>
                     <option value="Apartment">Apartment</option>
-                </select>
+                </select>*/}
                 <select
                     value={priceOrder}
                     onChange={(e) => setPriceOrder(e.target.value)}
@@ -240,13 +240,16 @@ const Lodgings = () => {
                 {filteredLodgings.map(lodging => (
                     <div key={lodging.id} className="lodging-item">
                         <div className="lodging-header">
+                            <img 
+                                src={lodging.photos[0]} 
+                                alt={lodging.name || 'Lodging'} 
+                                className="lodging-image"
+                            />
                             <h3 className="lodging-name">{lodging.name}</h3>
-                            <span className="lodging-type">{lodging.types}</span>
                         </div>
                         
                         <div className="lodging-details">
                             <p className="lodging-location"><strong>Location:</strong> {lodging.address}</p>
-                            <p className="lodging-price"><strong>Price:</strong> ${lodging.price_per_night} per night</p>
                             <p className="lodging-rating"><strong>Rating:</strong> {lodging.rating}/5</p>
                             {/*<p className="lodging-dates">
                                 <strong>Available:</strong> {new Date(lodging.check_in_date).toLocaleDateString()} to {new Date(lodging.check_out_date).toLocaleDateString()}
@@ -274,9 +277,13 @@ const Lodgings = () => {
                             </button>
                             <button 
                                 className="compare-btn"
-                                onClick={() => handleCompare(lodging)}
+                                onClick={() => {
+                                    if (lodging.website) {
+                                    window.open(lodging.website, '_blank', 'noopener,noreferrer');
+                                    }
+                                }}
                             >
-                                Compare Similar
+                                View Booking Website
                             </button>
                         </div>
                     </div>

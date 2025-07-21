@@ -68,7 +68,7 @@ const fetchHotels = async (location) => {
   const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
   try {
-    // Use Places Text Search API with query 'hotels in {location}'
+    // Get hotels in the location
     const response = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
       params: {
         query: `hotels in ${location}`,
@@ -84,6 +84,16 @@ const fetchHotels = async (location) => {
     const hotels = response.data.results;
 
     for (const hotel of hotels) {
+      const detailsRes = await axios.get('https://maps.googleapis.com/maps/api/place/details/json', {
+        params: {
+          place_id: hotel.place_id,
+          key: GOOGLE_API_KEY,
+          fields: 'website',
+        },
+      });
+
+      const website = detailsRes.data?.result?.website || null;
+
       results.push({
         id: hotel.place_id,
         name: hotel.name,
@@ -92,7 +102,8 @@ const fetchHotels = async (location) => {
         user_ratings_total: hotel.user_ratings_total || null,
         types: hotel.types[0] || [],
         location: hotel.geometry?.location || null,
-        photos: hotel.photos ? hotel.photos.map(photo => 
+        website,
+        photos: hotel.photos ? hotel.photos.map(photo =>
           `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=${GOOGLE_API_KEY}`
         ) : [],
       });
@@ -103,6 +114,7 @@ const fetchHotels = async (location) => {
 
   return results;
 };
+
 
 const amadeus = new Amadeus({
   clientId: process.env.AMADEUS_API_KEY,
@@ -131,6 +143,7 @@ const fetchFlights = async (origin, destination, departureDate) => {
       destinationLocationCode: destinationIATA,
       departureDate,
       adults: 1,
+      nonStop: true
     });
 
     const offers = response.data;
