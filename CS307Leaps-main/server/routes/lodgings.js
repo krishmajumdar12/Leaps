@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
     }
 });
 
-const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
+const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_API_KEY;
 // Get lodging info by id
 router.get('/:id',
     (req, res, next) => {
