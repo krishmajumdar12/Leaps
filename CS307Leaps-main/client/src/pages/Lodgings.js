@@ -251,11 +251,10 @@ const Lodgings = () => {
                         <div className="lodging-details">
                             <p className="lodging-location"><strong>Location:</strong> {lodging.address}</p>
                             <p className="lodging-rating"><strong>Rating:</strong> {lodging.rating}/5</p>
+                            <p className="lodging-price"><strong>Price-Level:</strong> {lodging.price_level}</p>
                             {/*<p className="lodging-dates">
                                 <strong>Available:</strong> {new Date(lodging.check_in_date).toLocaleDateString()} to {new Date(lodging.check_out_date).toLocaleDateString()}
-                            </p> */}
-                            <p className="lodging-description">{lodging.description}</p>
-                            
+                            </p> */}                            
                             {/*lodging.amenities && (
                                 <div className="lodging-amenities">
                                     <strong>Amenities:</strong>

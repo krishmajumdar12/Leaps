@@ -63,6 +63,17 @@ const randomPrice = (event) => {
   };
 };
 
+const formatPriceLevel = (level) => {
+  const map = {
+    0: '$ (Free)',
+    1: '$ (Affordable)',
+    2: '$$ (Moderate)',
+    3: '$$$ (Expensive)',
+    4: '$$$$ (Very Expensive)',
+  };
+  return map[level] || 'Unknown';
+};
+
 const fetchHotels = async (location) => {
   const results = [];
   const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
@@ -88,11 +99,13 @@ const fetchHotels = async (location) => {
         params: {
           place_id: hotel.place_id,
           key: GOOGLE_API_KEY,
-          fields: 'website',
+          fields: 'website, price_level',
         },
       });
 
-      const website = detailsRes.data?.result?.website || null;
+      const details = detailsRes.data?.result || {};
+      const website = details.website || null;
+      const price_level = formatPriceLevel(details.price_level);
 
       results.push({
         id: hotel.place_id,
@@ -103,6 +116,8 @@ const fetchHotels = async (location) => {
         types: hotel.types[0] || [],
         location: hotel.geometry?.location || null,
         website,
+        price: details.price_level,
+        price_level,
         photos: hotel.photos ? hotel.photos.map(photo =>
           `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=${GOOGLE_API_KEY}`
         ) : [],
