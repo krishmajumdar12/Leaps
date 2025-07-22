@@ -99,7 +99,7 @@ const fetchHotels = async (location) => {
         params: {
           place_id: hotel.place_id,
           key: GOOGLE_API_KEY,
-          fields: 'website, price_level',
+          fields: 'website,price_level',
         },
       });
 
