@@ -117,7 +117,7 @@ const Lodgings = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ tripId, itemType: 'lodging', itemId: selectedLodging.id, price: selectedLodging.price_per_night})
+                body: JSON.stringify({ tripId, itemType: 'lodging', itemId: selectedLodging.id})
             });
 
             if (!response.ok) throw new Error('Failed to add lodging to trip');
@@ -251,7 +251,7 @@ const Lodgings = () => {
                         <div className="lodging-details">
                             <p className="lodging-location"><strong>Location:</strong> {lodging.address}</p>
                             <p className="lodging-rating"><strong>Rating:</strong> {lodging.rating}/5</p>
-                            <p className="lodging-price"><strong>Price-Level:</strong> {lodging.price_level}</p>
+                            {/*<p className="lodging-price"><strong>Price-Level:</strong> {lodging.price_level}</p>*/}
                             {/*<p className="lodging-dates">
                                 <strong>Available:</strong> {new Date(lodging.check_in_date).toLocaleDateString()} to {new Date(lodging.check_out_date).toLocaleDateString()}
                             </p> */}                            
