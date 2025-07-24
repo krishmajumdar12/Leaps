@@ -329,7 +329,7 @@ const fetchFlights = async (origin, destination, departureDate) => {
 
 const fetchFlightByID = async (flightOfferJson) => {
   try {
-    const response = await amadeus.shopping.flightOffersSearch.pricing.post({
+    const response = await amadeus.shopping.flightOffers.pricing.post({
       data: {
         type: 'flight-offers-pricing',
         flightOffers: [flightOfferJson]
