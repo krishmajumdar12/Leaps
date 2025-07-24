@@ -76,7 +76,7 @@ router.post('/', auth, async (req, res) => {
     async (req, res) => {
       try {
         const { id } = req.params;
-        const flight = await fetchFlightById(id);
+        const flight = await fetchFlightByID(id);
   
         if (!flight) {
           return res.status(404).json({ message: 'Flight not found' });
