@@ -149,6 +149,88 @@ async function getIATACode(cityName) {
   }
 }
 
+async function getAirlineInfo(carrierCode) {
+  const airlineMap = {
+    'AA': {
+      name: 'American Airlines',
+      website: 'https://www.aa.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/AA.png'
+    },
+    'DL': {
+      name: 'Delta Air Lines',
+      website: 'https://www.delta.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/DL.png'
+    },
+    'UA': {
+      name: 'United Airlines',
+      website: 'https://www.united.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/UA.png'
+    },
+    'AS': {
+      name: 'Alaska Airlines',
+      website: 'https://www.alaskaair.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/AS.png'
+    },
+    'HA': {
+      name: 'Hawaiian Airlines',
+      website: 'https://www.hawaiianairlines.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/HA.png'
+    },
+    'WN': {
+      name: 'Southwest Airlines',
+      website: 'https://www.southwest.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/WN.png'
+    },
+    'F9': {
+      name: 'Frontier Airlines',
+      website: 'https://www.flyfrontier.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/F9.png'
+    },
+    'NK': {
+      name: 'Spirit Airlines',
+      website: 'https://www.spirit.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/NK.png'
+    },
+    'BA': {
+      name: 'British Airways',
+      website: 'https://www.britishairways.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/BA.png'
+    },
+    'LH': {
+      name: 'Lufthansa',
+      website: 'https://www.lufthansa.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/LH.png'
+    },
+    'AF': {
+      name: 'Air France',
+      website: 'https://www.airfrance.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/AF.png'
+    },
+    'EK': {
+      name: 'Emirates',
+      website: 'https://www.emirates.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/EK.png'
+    },
+    'QR': {
+      name: 'Qatar Airways',
+      website: 'https://www.qatarairways.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/QR.png'
+    },
+    'AC': {
+      name: 'Air Canada',
+      website: 'https://www.aircanada.com/',
+      logo: 'https://content.airhex.com/content/logos/airlines_64/AC.png'
+    }
+  };
+
+  return airlineMap[carrierCode] || {
+    name: 'Unknown Airline',
+    website: null,
+    logo: null
+  };
+}
+
+
 const fetchFlights = async (origin, destination, departureDate) => {
   try {
     const originIATA = await getIATACode(origin);
@@ -177,13 +259,18 @@ const fetchFlights = async (origin, destination, departureDate) => {
 
     return offers.map((offer) => {
       const segment = offer.itineraries[0].segments[0];
+      const carrier = segment.carrierCode;
+      const airline = getAirlineInfo(carrier);
       return {
-        type: segment.carrierCode,
+        type: carrier,
+        airline_name: airline.name,
         departure_location: segment.departure.iataCode,
         arrival_location: segment.arrival.iataCode,
         departure: segment.departure.at,
         arrival: segment.arrival.at,
-        price: offer.price.total
+        price: offer.price.total,
+        booking_url: airline.website,
+        logo_url: airline.logo
       };
     });
 

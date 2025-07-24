@@ -1,4 +1,3 @@
-/* Travel page specific styles with text visibility fixes */
 .travel-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -96,6 +95,23 @@
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 2px solid #e3f2fd;
+}
+
+.travel-airline-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.airline-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: contain;
+  background-color: #f8fbff;
+  border: 1px solid #e3f2fd;
+  padding: 4px;
+  flex-shrink: 0;
 }
 
 .travel-type {
@@ -259,6 +275,11 @@
   .travel-price {
     font-size: 20px;
   }
+  
+  .airline-logo {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 /* Modal styles */
@@ -410,6 +431,8 @@
   background-color: #ffebee;
   border-radius: 4px;
   margin-bottom: 20px;
+}
+
 .modal-content button:hover {
     background-color: #0056b3;
 }
@@ -473,26 +496,7 @@ button:hover {
   font-style: italic;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .travel-list {
-    grid-template-columns: 1fr;
-  }
-  
-  .filters {
-    flex-direction: column;
-  }
-  
-  .similar-option {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .similar-option button {
-    margin-top: 10px;
-    align-self: flex-end;
-  }
-}
+.book-travel-btn {
     padding: 10px 20px;
     background-color: #28a745;
     color: #fff;
@@ -518,7 +522,6 @@ button:hover {
     color: #0056b3;
     text-decoration: underline;
 }
-
 
 .driving-form {
   width: 100%;

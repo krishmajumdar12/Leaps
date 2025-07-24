@@ -420,7 +420,14 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                 {filteredTravelOptions.map(travel => (
                     <div key={travel.id} className="travel-item">
                         <div className="travel-header">
-                            <h3 className="travel-type">{travel.type}</h3>
+                            <div className="travel-airline-info">
+                                <img 
+                                    src={travel.logo_url} 
+                                    alt={`${travel.airline_name} logo`}
+                                    className="airline-logo"
+                                />
+                                <h3 className="travel-type">{travel.airline_name}</h3>
+                            </div>
                             <p className="travel-price">${travel.price}</p>
                         </div>
 
@@ -466,7 +473,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                     View & Calculate Costs
                                 </button>
                             ) : (
-                                <button className="compare-btn" onClick={() => window.open('https://www.booking.com', '_blank')}>
+                                <button className="compare-btn" onClick={() => window.open(travel.booking_url, '_blank')}>
                                     Book Travel
                                 </button>
                             )}
