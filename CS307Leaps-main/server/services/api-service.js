@@ -220,8 +220,38 @@ function getAirlineInfo(carrierCode) {
       name: 'Air Canada',
       website: 'https://www.aircanada.com/',
       logo: 'https://logo.clearbit.com/aircanada.com'
+    },
+    'B6': {
+      name: 'JetBlue Airways',
+      website: 'https://www.jetblue.com/',
+      logo: 'https://logo.clearbit.com/jetblue.com'
+    },
+    '6X': {
+      name: 'Endeavor Air',
+      website: 'https://www.endeavorair.com/',
+      logo: 'https://logo.clearbit.com/endeavorair.com'
+    },
+    'A1': {
+      name: 'Aero 1',
+      website: 'https://www.aero1.com/',
+      logo: 'https://logo.clearbit.com/aero1.com'
+    },
+    'VS': {
+      name: 'Virgin Atlantic',
+      website: 'https://www.virginatlantic.com/',
+      logo: 'https://logo.clearbit.com/virginatlantic.com'
+    },
+    'KL': {
+      name: 'KLM Royal Dutch Airlines',
+      website: 'https://www.klm.com/',
+      logo: 'https://logo.clearbit.com/klm.com'
+    },
+    'IB': {
+      name: 'Iberia',
+      website: 'https://www.iberia.com/',
+      logo: 'https://logo.clearbit.com/iberia.com'
     }
-  };  
+  };
 
   return airlineMap[carrierCode] || {
     name: 'Unknown Airline',

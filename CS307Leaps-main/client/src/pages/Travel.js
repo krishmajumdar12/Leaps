@@ -357,62 +357,61 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                     + Add Driving Route
                 </button>
             </div>
-            <div className="filter">
-                <h2 style={{ color: 'black' }}>Enter flight details:</h2>
-                <div className="filter-row">
-                    <label>
-                        Departure Location:
-                        <input
-                            type="text"
-                            value={departureLocation}
-                            onChange={(e) => setDepartureLocation(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                  fetchTravelOptions(departureLocation, destination, departureDate);
-                                }
-                            }}
-                            placeholder="Enter departure location"
-                        />
-                    </label>
-                    <label>
-                        Destination:
-                        <input
-                            type="text"
-                            value={destination}
-                            onChange={(e) => setDestination(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                  fetchTravelOptions(departureLocation, destination, departureDate);
-                                }
-                            }}
-                            placeholder="Enter destination"
-                        />
-                    </label>
-                </div>
-                <div className="filter-row">
-                    <label>
-                        Departure:
-                        <input
-                            type="date"
-                            value={departureDate}
-                            onChange={(e) => setDepartureDate(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                  fetchTravelOptions(departureLocation, destination, departureDate);
-                                }
-                            }}
-                            placeholder="Enter departure date"
-                        />
-                    </label>
-                    {/*<label>
-                        Arrival:
-                        <input
-                            type="date"
-                            value={arrivalDate}
-                            onChange={(e) => setArrivalDate(e.target.value)}
-                            placeholder="Enter arrival date"
-                        />
-                    </label>*/}
+            <div className="filters">
+                <h2 className="filter-title">Enter flight details:</h2>
+                
+                <div className="filter-content">
+                    <div className="filter-row">
+                        <label>
+                            Departure Location:
+                            <input
+                                type="text"
+                                value={departureLocation}
+                                onChange={(e) => setDepartureLocation(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                    fetchTravelOptions(departureLocation, destination, departureDate);
+                                    }
+                                }}
+                                placeholder="Enter departure location"
+                            />
+                        </label>
+                        <label>
+                            Destination:
+                            <input
+                                type="text"
+                                value={destination}
+                                onChange={(e) => setDestination(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                    fetchTravelOptions(departureLocation, destination, departureDate);
+                                    }
+                                }}
+                                placeholder="Enter destination"
+                            />
+                        </label>
+                        <label>
+                            Departure Date:
+                            <input
+                                type="date"
+                                value={departureDate}
+                                onChange={(e) => setDepartureDate(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                    fetchTravelOptions(departureLocation, destination, departureDate);
+                                    }
+                                }}
+                                placeholder="Enter departure date"
+                            />
+                        </label>
+                    </div>
+                    
+                    <button 
+                        className="search-btn"
+                        onClick={() => fetchTravelOptions(departureLocation, destination, departureDate)}
+                    >
+                        Search Flights
+                    </button>
                 </div>
             </div>
 
@@ -473,7 +472,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                     View & Calculate Costs
                                 </button>
                             ) : (
-                                <button className="compare-btn" onClick={() => window.open(travel.booking_url, '_blank')}>
+                                <button className="compare-btn" onClick={() => window.open(travel.booking_url || travel.type, '_blank')}>
                                     Book Travel
                                 </button>
                             )}
