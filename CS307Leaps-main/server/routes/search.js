@@ -14,10 +14,9 @@ router.get('/', (req, res, next) => {
   console.log("location: %s", location);
   console.log("event type %s", eventType);
   try {
-    const results = { events: [], travel: [], lodging: [] };
+    const results = [];
     if (q || location || eventType || startDateTime || endDateTime || priceSort || locationSort || latitude || longitude) {
-      const externalResults = await apiService.fetchEvents(q, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude); // Pass startDateTime and endDateTime
-      results.events = externalResults.events;
+      const results = await apiService.fetchEvents(q, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude); // Pass startDateTime and endDateTime
     }
     res.json(results);
   } catch (error) {

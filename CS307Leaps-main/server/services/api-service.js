@@ -436,7 +436,7 @@ const fetchEvents = async (query, location, eventType, startDateTime, endDateTim
   return results
 };
 
-const fetchExternalData = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
+/*const fetchExternalData = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
   console.log('Received parameters:', { query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude }); // Debugging log
   const results = { events: [], travel: [], lodging: [] };
   const tmApiKey = process.env.TICKETMASTER_API_KEY;
@@ -553,6 +553,6 @@ const fetchExternalData = async (query, location, eventType, startDateTime, endD
     console.error('Ticketmaster API fetch failed:', error.message);
   }
   return results;
-};
+};*/
 
 module.exports = { fetchExternalData, fetchHotels, fetchFlights, fetchEvents };
