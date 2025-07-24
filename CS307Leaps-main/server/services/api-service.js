@@ -154,74 +154,74 @@ function getAirlineInfo(carrierCode) {
     'AA': {
       name: 'American Airlines',
       website: 'https://www.aa.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/AA.png'
+      logo: 'https://logo.clearbit.com/aa.com'
     },
     'DL': {
       name: 'Delta Air Lines',
       website: 'https://www.delta.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/DL.png'
+      logo: 'https://logo.clearbit.com/delta.com'
     },
     'UA': {
       name: 'United Airlines',
       website: 'https://www.united.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/UA.png'
+      logo: 'https://logo.clearbit.com/united.com'
     },
     'AS': {
       name: 'Alaska Airlines',
       website: 'https://www.alaskaair.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/AS.png'
+      logo: 'https://logo.clearbit.com/alaskaair.com'
     },
     'HA': {
       name: 'Hawaiian Airlines',
       website: 'https://www.hawaiianairlines.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/HA.png'
+      logo: 'https://logo.clearbit.com/hawaiianairlines.com'
     },
     'WN': {
       name: 'Southwest Airlines',
       website: 'https://www.southwest.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/WN.png'
+      logo: 'https://logo.clearbit.com/southwest.com'
     },
     'F9': {
       name: 'Frontier Airlines',
       website: 'https://www.flyfrontier.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/F9.png'
+      logo: 'https://logo.clearbit.com/flyfrontier.com'
     },
     'NK': {
       name: 'Spirit Airlines',
       website: 'https://www.spirit.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/NK.png'
+      logo: 'https://logo.clearbit.com/spirit.com'
     },
     'BA': {
       name: 'British Airways',
       website: 'https://www.britishairways.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/BA.png'
+      logo: 'https://logo.clearbit.com/britishairways.com'
     },
     'LH': {
       name: 'Lufthansa',
       website: 'https://www.lufthansa.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/LH.png'
+      logo: 'https://logo.clearbit.com/lufthansa.com'
     },
     'AF': {
       name: 'Air France',
       website: 'https://www.airfrance.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/AF.png'
+      logo: 'https://logo.clearbit.com/airfrance.com'
     },
     'EK': {
       name: 'Emirates',
       website: 'https://www.emirates.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/EK.png'
+      logo: 'https://logo.clearbit.com/emirates.com'
     },
     'QR': {
       name: 'Qatar Airways',
       website: 'https://www.qatarairways.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/QR.png'
+      logo: 'https://logo.clearbit.com/qatarairways.com'
     },
     'AC': {
       name: 'Air Canada',
       website: 'https://www.aircanada.com/',
-      logo: 'https://content.airhex.com/content/logos/airlines_64/AC.png'
+      logo: 'https://logo.clearbit.com/aircanada.com'
     }
-  };
+  };  
 
   return airlineMap[carrierCode] || {
     name: 'Unknown Airline',
