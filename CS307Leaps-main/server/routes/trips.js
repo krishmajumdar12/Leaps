@@ -527,41 +527,54 @@ router.delete('/:tripId/events/:eventId', auth, async (req, res) => {
 
 // Add an item (event, travel, lodging) to a trip
 router.post('/add-item', auth, async (req, res) => {
-    const { tripId, itemType, itemId, price } = req.body;
-    console.log("Received:", { tripId, itemType, itemId, price });
+    const { tripId, itemType, itemId, price, flightOfferJson } = req.body;
+    console.log("Received:", { tripId, itemType, itemId, price, flightOfferJson });
+  
     try {
-        const result = await db.query(
-            'INSERT INTO trip_items (trip_id, item_type, item_id, price) VALUES ($1, $2, $3, $4) RETURNING *',
-            [tripId, itemType, itemId, price]
+      let query, params;
+  
+      if (itemType === 'travel' && flightOfferJson) {
+        // Insert with flight_offer_json for travel items
+        query = `
+          INSERT INTO trip_items (trip_id, item_type, item_id, price, flight_offer_json)
+          VALUES ($1, $2, $3, $4, $5)
+          RETURNING *`;
+        params = [tripId, itemType, itemId, price, flightOfferJson];
+      } else {
+        // Insert without flight_offer_json for other items
+        query = `
+          INSERT INTO trip_items (trip_id, item_type, item_id, price)
+          VALUES ($1, $2, $3, $4)
+          RETURNING *`;
+        params = [tripId, itemType, itemId, price];
+      }
+  
+      const result = await db.query(query, params);
+      res.json(result.rows[0]);
+  
+      // Notify trip members
+      const memberResult = await db.query('SELECT user_id FROM trip_members WHERE trip_id = $1', [tripId]);
+      const userIds = memberResult.rows.map(row => row.user_id);
+  
+      const trip = await db.query('SELECT name FROM trips WHERE id = $1', [tripId]);
+      const tripName = trip.rows[0].name;
+  
+      const notificationPromises = userIds.map(userId => {
+        return db.query(
+          `INSERT INTO notifications (user_id, trip_id, type, message)
+           VALUES ($1, $2, $3, $4)`,
+          [userId, tripId, 'trip_update', `An item has been added to trip: ${tripName}.`]
         );
-        res.json(result.rows[0]);
-
-        // Send Notification to all members
-        // Get all user_ids from trip_members
-        const memberResult = await db.query(
-            'SELECT user_id FROM trip_members WHERE trip_id = $1',
-            [tripId]
-        );
-        const userIds = memberResult.rows.map(row => row.user_id);
-        const trip = await db.query(
-            'SELECT name FROM trips WHERE id = $1',
-            [tripId]
-        );
-        // Send a notification for each member
-        const notificationPromises = userIds.map(userId1 => {
-            return db.query(
-                `INSERT INTO notifications (user_id, trip_id, type, message)
-                 VALUES ($1, $2, $3, $4)`,
-                [userId1, tripId, 'trip_update', `An item has been added to trip: ${trip.rows[0].name}.`]
-            );
-        });
-        await Promise.all(notificationPromises);
-        console.log('Members notified successfully');
+      });
+  
+      await Promise.all(notificationPromises);
+      console.log('Members notified successfully');
+  
     } catch (error) {
-        console.error('Error adding item to trip:', error);
-        res.status(500).json({ error: 'Failed to add item' });
+      console.error('Error adding item to trip:', error);
+      res.status(500).json({ error: 'Failed to add item' });
     }
-});
+  });
 
 
 router.delete('/items/:tripId/:itemType/:itemId', auth, async (req, res) => {

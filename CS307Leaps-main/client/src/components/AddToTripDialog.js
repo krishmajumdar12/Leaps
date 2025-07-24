@@ -50,29 +50,43 @@ const AddToTripDialog = ({ open, onClose, item }) => {
 
   const addToTrip = (tripId) => {
     setLoading(true);
-    console.log("Would send to server:", { tripId, itemType: item.type, itemId: item.id, price: item.min_price});
+  
+    // Prepare payload with required fields
+    const payload = {
+      tripId,
+      itemType: item.type,
+      itemId: item.id,
+      price: item.min_price
+    };
+  
+    // Add flightOfferJson only if this is a travel item and flightOfferJson exists
+    if (item.type === 'travel' && item.flightOfferJson) {
+      payload.flightOfferJson = item.flightOfferJson;
+    }
+  
+    console.log("Would send to server:", payload);
+  
     fetch('https://leaps-ohwd.onrender.com/api/trips/add-item', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({ tripId, itemType: item.type, itemId: item.id, price: item.min_price }),
+      body: JSON.stringify(payload),
     })
     .then(res => {
       if (!res.ok) throw new Error('Failed to add item');
-      console.log("Sending to server:", { tripId, itemType: item.type, itemId: item.id, price: item.price });
+      console.log("Sending to server:", payload);
       setSuccess(`Successfully added to trip!`);
       setTimeout(() => onClose(), 1500);
-      
     })
     .catch(err => {
       console.error('Add item error:', err);
       setError('Failed to add item to trip.');
     })
     .finally(() => setLoading(false));
-
-};
+  };
+  
 
   const createTrip = () => {
     setLoading(true);

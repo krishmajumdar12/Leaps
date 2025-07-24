@@ -316,7 +316,8 @@ const fetchFlights = async (origin, destination, departureDate) => {
         arrival: segment.arrival.at,
         price: offer.price.total,
         booking_url: airline.website,
-        logo_url: airline.logo
+        logo_url: airline.logo,
+        flightOfferJson: offer
       };
     });
 
@@ -326,20 +327,14 @@ const fetchFlights = async (origin, destination, departureDate) => {
   }
 }
 
-const fetchFlightByID = async (flightOfferId) => {
+const fetchFlightByID = async (flightOfferJson) => {
   try {
-    const response = await amadeus.shopping.flightOffersSearch.pricing.post(
-      JSON.stringify({
-        data: {
-          type: 'flight-offers-pricing',
-          flightOffers: [
-            {
-              id: flightOfferId
-            }
-          ]
-        }
-      })
-    );
+    const response = await amadeus.shopping.flightOffersSearch.pricing.post({
+      data: {
+        type: 'flight-offers-pricing',
+        flightOffers: [flightOfferJson]
+      }
+    });
 
     const offer = response.data[0];
     const segment = offer.itineraries[0].segments[0];
@@ -361,10 +356,11 @@ const fetchFlightByID = async (flightOfferId) => {
     };
 
   } catch (error) {
-    console.error(`Error fetching flight offer by ID ${flightOfferId}:`, error);
+    console.error('Error fetching flight offer pricing:', error);
     return null;
   }
 };
+
 
 
 /*const fetchHotels = async (location) => {

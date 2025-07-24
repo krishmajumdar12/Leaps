@@ -166,6 +166,7 @@ CREATE TABLE trip_items (
     min_price DOUBLE PRECISION,
     max_price DOUBLE PRECISION,
     price NUMERIC(10,2),
+    flight_offer_json JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(trip_id, item_type, item_id)
 );

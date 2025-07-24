@@ -76,15 +76,29 @@ router.post('/', auth, async (req, res) => {
     async (req, res) => {
       try {
         const { id } = req.params;
-        const flight = await fetchFlightByID(id);
-  
-        if (!flight) {
+    
+        // Query DB for stored flight_offer_json by item_id = id and item_type = 'travel'
+        const result = await db.query(
+          `SELECT flight_offer_json FROM trip_items WHERE item_id = $1 AND item_type = 'travel'`,
+          [id]
+        );
+    
+        if (result.rows.length === 0) {
           return res.status(404).json({ message: 'Flight not found' });
         }
-  
-        res.json(flight);
+    
+        const flightOfferJson = result.rows[0].flight_offer_json;
+    
+        // Call fetchFlightByID with the full JSON
+        const flightDetails = await fetchFlightByID(flightOfferJson);
+
+        if (!flightDetails) {
+          return res.status(500).json({ message: 'Error fetching flight details' });
+        }
+
+        res.json(flightDetails);
       } catch (err) {
-        console.error('Error fetching flight by Amadeus ID:', err);
+        console.error('Error fetching flight pricing by stored offer JSON:', err);
         res.status(500).json({ message: 'Server error fetching flight data' });
       }
     }
