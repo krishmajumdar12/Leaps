@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const auth = require('../middleware/auth');
-const { fetchFlights } = require('../services/api-service');
+const { fetchFlights, fetchFlightByID } = require('../services/api-service');
 
 
 router.get('/', (req, res, next) => {
@@ -65,6 +65,7 @@ router.post('/', auth, async (req, res) => {
     }
   });
   
+  /* Use Amadeus API from api-service to get flight details by id */
   router.get(
     '/:id',
     (req, res, next) => {
@@ -75,17 +76,16 @@ router.post('/', auth, async (req, res) => {
     async (req, res) => {
       try {
         const { id } = req.params;
-        const query = 'SELECT * FROM travel WHERE id = $1';
-        const result = await db.query(query, [id]);
+        const flight = await fetchFlightById(id);
   
-        if (result.rows.length === 0) {
-          return res.status(404).json({ message: 'Travel item not found' });
+        if (!flight) {
+          return res.status(404).json({ message: 'Flight not found' });
         }
   
-        res.json(result.rows[0]);
+        res.json(flight);
       } catch (err) {
-        console.error('Error fetching travel item:', err);
-        res.status(500).json({ message: 'Server error fetching travel item' });
+        console.error('Error fetching flight by Amadeus ID:', err);
+        res.status(500).json({ message: 'Server error fetching flight data' });
       }
     }
   );

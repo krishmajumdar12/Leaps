@@ -250,6 +250,21 @@ function getAirlineInfo(carrierCode) {
       name: 'Iberia',
       website: 'https://www.iberia.com/',
       logo: 'https://logo.clearbit.com/iberia.com'
+    },
+    'AY': {
+      name: 'Finnair',
+      website: 'https://www.finnair.com/',
+      logo: 'https://logo.clearbit.com/finnair.com'
+    },
+    'EI': {
+      name: 'Aer Lingus',
+      website: 'https://www.aerlingus.com/',
+      logo: 'https://logo.clearbit.com/aerlingus.com'
+    },
+    'TP': {
+      name: 'TAP Air Portugal',
+      website: 'https://www.flytap.com/',
+      logo: 'https://logo.clearbit.com/flytap.com'
     }
   };
 
@@ -259,7 +274,6 @@ function getAirlineInfo(carrierCode) {
     logo: null
   };
 }
-
 
 const fetchFlights = async (origin, destination, departureDate) => {
   try {
@@ -292,7 +306,9 @@ const fetchFlights = async (origin, destination, departureDate) => {
       const carrier = segment.carrierCode;
       const airline = getAirlineInfo(carrier);
       return {
-        type: carrier,
+        id: offer.id,
+        type: 'travel',
+        carrierCode: carrier,
         airline_name: airline.name,
         departure_location: segment.departure.iataCode,
         arrival_location: segment.arrival.iataCode,
@@ -309,6 +325,47 @@ const fetchFlights = async (origin, destination, departureDate) => {
     return [];
   }
 }
+
+const fetchFlightByID = async (flightOfferId) => {
+  try {
+    const response = await amadeus.shopping.flightOffersSearch.pricing.post(
+      JSON.stringify({
+        data: {
+          type: 'flight-offers-pricing',
+          flightOffers: [
+            {
+              id: flightOfferId
+            }
+          ]
+        }
+      })
+    );
+
+    const offer = response.data[0];
+    const segment = offer.itineraries[0].segments[0];
+    const carrier = segment.carrierCode;
+    const airline = getAirlineInfo(carrier);
+
+    return {
+      id: offer.id,
+      type: 'travel',
+      carrierCode: carrier,
+      airline_name: airline.name,
+      departure_location: segment.departure.iataCode,
+      arrival_location: segment.arrival.iataCode,
+      departure: segment.departure.at,
+      arrival: segment.arrival.at,
+      price: offer.price.total,
+      booking_url: airline.website,
+      logo_url: airline.logo
+    };
+
+  } catch (error) {
+    console.error(`Error fetching flight offer by ID ${flightOfferId}:`, error);
+    return null;
+  }
+};
+
 
 /*const fetchHotels = async (location) => {
   const results = [];
@@ -672,4 +729,4 @@ const fetchEvents = async (query, location, eventType, startDateTime, endDateTim
   return results;
 };*/
 
-module.exports = { /*fetchExternalData,*/fetchHotels, fetchFlights, fetchEvents };
+module.exports = { /*fetchExternalData,*/fetchHotels, fetchFlights, fetchEvents, fetchFlightByID };

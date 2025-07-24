@@ -472,8 +472,8 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                                     View & Calculate Costs
                                 </button>
                             ) : (
-                                <button className="compare-btn" onClick={() => window.open(travel.booking_url || travel.type, '_blank')}>
-                                    Book Travel
+                                <button className="compare-btn" onClick={() => window.open(travel.booking_url || travel.carrier, '_blank')}>
+                                    Book Flight
                                 </button>
                             )}
                             {/*<button 
