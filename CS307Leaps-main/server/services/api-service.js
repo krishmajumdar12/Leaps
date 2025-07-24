@@ -149,7 +149,7 @@ async function getIATACode(cityName) {
   }
 }
 
-async function getAirlineInfo(carrierCode) {
+function getAirlineInfo(carrierCode) {
   const airlineMap = {
     'AA': {
       name: 'American Airlines',
