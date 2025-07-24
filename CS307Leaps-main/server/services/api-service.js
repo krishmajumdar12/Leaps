@@ -337,6 +337,105 @@ const fetchFlights = async (origin, destination, departureDate) => {
   return results;
 };*/
 
+const fetchEvents = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
+  console.log('Received parameters:', { query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude });
+
+  const results = [];
+  const SEATGEEK_API_KEY = process.env.SEATGEEK_ID;
+  if (!SEATGEEK_API_KEY) {
+    console.error('SEATGEEK API key not set in .env');
+    return results;
+  }
+
+  const normalizedLocation = location === 'NY' ? 'New York' : location || '';
+  const formattedStartDateTime = startDateTime || null;
+  const formattedEndDateTime = endDateTime || null;
+
+  let sgUrl = `https://api.seatgeek.com/2/events?client_id=${SEATGEEK_API_KEY}`;
+  if (query) sgUrl += `&q=${encodeURIComponent(query)}`;
+  if (normalizedLocation) sgUrl += `&venue.city=${encodeURIComponent(normalizedLocation)}`;
+  if (eventType) sgUrl += `&taxonomies.name=${encodeURIComponent(eventType)}`;
+  if (formattedStartDateTime) sgUrl += `&datetime_utc.gte=${encodeURIComponent(formattedStartDateTime)}`;
+  if (formattedEndDateTime) sgUrl += `&datetime_utc.lte=${encodeURIComponent(formattedEndDateTime)}`;
+
+  console.log('Constructed SeatGeek URL:', sgUrl);
+
+  try {
+    const response = await fetch(sgUrl);
+    if (!response.ok) throw new Error(`SeatGeek API error: ${response.status}`);
+    const data = await response.json();
+
+    if (data.events?.length > 0) {
+      results.push(...(
+        await Promise.all(
+          data.events.map(async (event) => {
+            const venue = event.venue || {};
+            const performer = event.performers?.[0] || {};
+            const eventLat = venue.location?.lat || 0;
+            const eventLon = venue.location?.lon || 0;
+            const distance = getDistance(latitude, longitude, eventLat, eventLon);
+
+            const priceMin = event.stats?.lowest_price ?? null;
+            const priceAvg = event.stats?.average_price ?? null;
+            const priceMax = event.stats?.highest_price ?? null;
+
+            let priceLabel = 'Price unavailable';
+            if (priceMin !== null && priceMax !== null) {
+              priceLabel = `$${priceMin} – $${priceMax}`;
+            } else if (priceMin !== null) {
+              priceLabel = `Starting at $${priceMin}`;
+            } else {
+              priceLabel = 'Check SeatGeek for pricing';
+            }
+
+            return {
+              id: event.id,
+              type: 'event',
+              name: event.title,
+              eventType: event.type || 'unknown',
+              location: venue.city || normalizedLocation || 'Unknown',
+              start_time: event.datetime_local || null,
+              price: priceLabel,
+              distance: distance,
+              image: performer.image || null,
+              min_price: priceMin,
+              max_price: priceMax
+            };
+          })
+        )
+      ));
+
+      // Sort by price
+      if (priceSort) {
+        results.sort((a, b) => {
+          if (priceSort === 'ascending') {
+            return (a.min_price || 0) - (b.min_price || 0);
+          } else if (priceSort === 'descending') {
+            return (b.min_price || 0) - (a.min_price || 0);
+          }
+          return 0;
+        });
+      }
+
+      // Sort by distance
+      if (locationSort) {
+        results.sort((a, b) => {
+          if (locationSort === 'ascending') {
+            return (a.distance || 0) - (b.distance || 0);
+          } else if (locationSort === 'descending') {
+            return (b.distance || 0) - (a.distance || 0);
+          }
+          return 0;
+        });
+      }
+    }
+  } catch (error) {
+    console.error('SeatGeek API fetch failed:', error.message);
+  }
+
+  return results
+};
+
 const fetchExternalData = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
   console.log('Received parameters:', { query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude }); // Debugging log
   const results = { events: [], travel: [], lodging: [] };
@@ -456,4 +555,4 @@ const fetchExternalData = async (query, location, eventType, startDateTime, endD
   return results;
 };
 
-module.exports = { fetchExternalData, fetchHotels, fetchFlights };
+module.exports = { fetchExternalData, fetchHotels, fetchFlights, fetchEvents };
