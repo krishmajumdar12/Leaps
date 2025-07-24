@@ -539,7 +539,8 @@ router.post('/add-item', auth, async (req, res) => {
           INSERT INTO trip_items (trip_id, item_type, item_id, price, flight_offer_json)
           VALUES ($1, $2, $3, $4, $5)
           RETURNING *`;
-        params = [tripId, itemType, itemId, price, flightOfferJson];
+        params = [tripId, itemType, itemId, price, JSON.stringify(flightOfferJson)];
+        console.log("Received:", { tripId, itemType, itemId, price, flightOfferJson });
       } else {
         // Insert without flight_offer_json for other items
         query = `

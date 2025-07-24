@@ -88,6 +88,11 @@ router.post('/', auth, async (req, res) => {
         }
     
         const flightOfferJson = result.rows[0].flight_offer_json;
+
+        if (!flightOfferJson) {
+          console.error('flightOfferJson is null or undefined!');
+          return;
+        }
     
         // Call fetchFlightByID with the full JSON
         const flightDetails = await fetchFlightByID(flightOfferJson);
