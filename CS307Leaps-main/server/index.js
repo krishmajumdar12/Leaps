@@ -19,6 +19,11 @@ const http = require('http');
 const socketIo = require('socket.io');
 const { initializeSocket } = require('./socket');
 
+const allowedOrigins = [
+    'https://leapstravel.com',
+    'https://www.leapstravel.com'
+];
+
 dotenv.config();
 
 
@@ -28,7 +33,7 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-      origin: 'https://leapstravel.com', // Frontend port
+      origin: allowedOrigins, // Frontend port
       methods: ['GET', 'POST'],
       credentials: true
     }
@@ -38,8 +43,19 @@ initializeSocket(io);
 const port = process.env.PORT || 3000;
 
 
-// Middleware
-app.use(cors({ origin: 'https://leapstravel.com' }));   // Enable CORS for all routes
+// Middleware CORS config
+app.use(cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (like curl, Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS not allowed by server'));
+      }
+    },
+    credentials: true
+}));
 app.use(express.json());  // Parse JSON bodies (for POST requests)
 app.use((req, res, next) => {
     console.log(`[${req.method}] ${req.url}`);
