@@ -21,7 +21,8 @@ const { initializeSocket } = require('./socket');
 
 const allowedOrigins = [
     'https://leapstravel.com',
-    'https://www.leapstravel.com'
+    'https://www.leapstravel.com',
+    'https://www.leapstravel.com/home'
 ];
 
 dotenv.config();
