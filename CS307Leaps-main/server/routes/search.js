@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
   try {
     let results = [];
     if (q || location || eventType || startDateTime || endDateTime || priceSort || locationSort || latitude || longitude) {
-      results = await apiService.fetchEvents(q, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude); // Pass startDateTime and endDateTime
+      results = await apiService.fetchExternalData(q, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude); // Pass startDateTime and endDateTime
     }
     res.json(results);
   } catch (error) {

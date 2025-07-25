@@ -499,7 +499,7 @@ const fetchFlightByID = (flightOfferJson) => {
   return results;
 };*/
 
-const fetchEvents = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
+/*const fetchEvents = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
   console.log('Received parameters:', { query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude });
 
   const results = [];
@@ -561,7 +561,8 @@ const fetchEvents = async (query, location, eventType, startDateTime, endDateTim
               distance: distance,
               image: performer.image || null,
               min_price: priceMin,
-              max_price: priceMax
+              max_price: priceMax,
+              avg_price: priceAvg
             };
           })
         )
@@ -596,9 +597,9 @@ const fetchEvents = async (query, location, eventType, startDateTime, endDateTim
   }
 
   return results
-};
+};*/
 
-/*const fetchExternalData = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
+const fetchExternalData = async (query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude) => {
   console.log('Received parameters:', { query, location, eventType, startDateTime, endDateTime, priceSort, locationSort, latitude, longitude }); // Debugging log
   const results = { events: [], travel: [], lodging: [] };
   const tmApiKey = process.env.TICKETMASTER_API_KEY;
@@ -715,6 +716,6 @@ const fetchEvents = async (query, location, eventType, startDateTime, endDateTim
     console.error('Ticketmaster API fetch failed:', error.message);
   }
   return results;
-};*/
+};
 
-module.exports = { /*fetchExternalData,*/fetchHotels, fetchFlights, fetchEvents, fetchFlightByID };
+module.exports = { fetchExternalData,fetchHotels, fetchFlights, /*fetchEvents,*/ fetchFlightByID };
