@@ -254,7 +254,7 @@ const calculateDrivingCost = ({ distance, fuelPrice = 3.5, fuelEfficiency = 25, 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ tripId, itemType: 'travel', itemId: selectedTravel.id, price: selectedTravel.price })
+                body: JSON.stringify({ tripId, itemType: 'travel', itemId: selectedTravel.id, price: selectedTravel.price, flightOfferJson: selectedTravel.flightOfferJson })
             });
 
             if (!response.ok) throw new Error('Failed to add travel to trip');

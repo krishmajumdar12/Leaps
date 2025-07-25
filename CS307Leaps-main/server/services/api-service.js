@@ -327,16 +327,9 @@ const fetchFlights = async (origin, destination, departureDate) => {
   }
 }
 
-const fetchFlightByID = async (flightOfferJson) => {
+const fetchFlightByID = (flightOfferJson) => {
   try {
-    const response = await amadeus.shopping.flightOffers.pricing.post({
-      data: {
-        type: 'flight-offers-pricing',
-        flightOffers: [flightOfferJson]
-      }
-    });
-
-    const offer = response.data[0];
+    const offer = flightOfferJson;
     const segment = offer.itineraries[0].segments[0];
     const carrier = segment.carrierCode;
     const airline = getAirlineInfo(carrier);
@@ -345,22 +338,21 @@ const fetchFlightByID = async (flightOfferJson) => {
       id: offer.id,
       type: 'travel',
       carrierCode: carrier,
-      airline_name: airline.name,
+      airline_name: airline?.name || carrier,
       departure_location: segment.departure.iataCode,
       arrival_location: segment.arrival.iataCode,
       departure: segment.departure.at,
       arrival: segment.arrival.at,
       price: offer.price.total,
-      booking_url: airline.website,
-      logo_url: airline.logo
+      booking_url: airline?.website || null,
+      logo_url: airline?.logo || null
     };
 
   } catch (error) {
-    console.error('Error fetching flight offer pricing:', error);
+    console.error('Error parsing flight offer JSON:', error);
     return null;
   }
 };
-
 
 
 /*const fetchHotels = async (location) => {
