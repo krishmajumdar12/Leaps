@@ -21,6 +21,7 @@ const { initializeSocket } = require('./socket');
 
 const allowedOrigins = [
     'https://leapstravel.com',
+    'https://leapstravel.com/home',
     'https://www.leapstravel.com',
     'https://www.leapstravel.com/home'
 ];
