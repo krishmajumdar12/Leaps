@@ -8,6 +8,7 @@ const SearchResults = ({ results, onAddToTrip }) => {
   const token = localStorage.getItem('token');
 
   const renderItem = (item, type) => {
+    if (type === 'events') {
       const date = new Date(item.start_time).toLocaleDateString();
       const price = item.price;
       
@@ -34,6 +35,10 @@ const SearchResults = ({ results, onAddToTrip }) => {
           </div>
         </>
       );
+    }
+    if (type === 'travel') return `${item.type} from ${item.departure_location} to ${item.arrival_location}`;
+    if (type === 'lodging') return `${item.name} (${item.type}) - ${item.location}`;
+    return null;
   };
 
   const handleViewEvent = async (item, type) => {
@@ -78,8 +83,7 @@ const SearchResults = ({ results, onAddToTrip }) => {
     }
   };
 
-  const hasResults = Array.isArray(results) && results.length > 0;
-  console.log('Has results:', hasResults)
+  const hasResults = Object.values(results).some(items => items.length > 0);
 
   return (
     <div className="search-results">

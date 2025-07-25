@@ -28,7 +28,7 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-      origin: 'http://localhost:3001', // Frontend port
+      origin: 'https://leapstravel.com', // Frontend port
       methods: ['GET', 'POST'],
       credentials: true
     }
@@ -39,7 +39,7 @@ const port = process.env.PORT || 3000;
 
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3001' }));   // Enable CORS for all routes
+app.use(cors({ origin: 'https://leapstravel.com' }));   // Enable CORS for all routes
 app.use(express.json());  // Parse JSON bodies (for POST requests)
 app.use((req, res, next) => {
     console.log(`[${req.method}] ${req.url}`);
